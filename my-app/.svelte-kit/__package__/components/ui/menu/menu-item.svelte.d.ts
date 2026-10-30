@@ -1,0 +1,12 @@
+import type { Snippet } from "svelte";
+type $$ComponentProps = {
+    href?: string;
+    active?: boolean;
+    icon?: Snippet;
+    children: Snippet;
+    class?: string;
+    [key: string]: unknown;
+};
+declare const MenuItem: import("svelte").Component<$$ComponentProps, {}, "">;
+type MenuItem = ReturnType<typeof MenuItem>;
+export default MenuItem;

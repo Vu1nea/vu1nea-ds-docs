@@ -1,9 +1,9 @@
 import { l as __exportAll } from "../../../../chunks/index-server.js";
-import { D as escape_html, E as clsx, T as attr, a as derived, c as head, d as spread_props, f as stringify, s as ensure_array_like, t as attr_class } from "../../../../chunks/server.js";
+import { D as escape_html, E as clsx, T as attr, a as derived, c as head, d as spread_props, f as stringify, i as bind_props, r as attributes, s as ensure_array_like, t as attr_class } from "../../../../chunks/server.js";
 import { t as cn } from "../../../../chunks/utils2.js";
 import { i as ordered, t as bySlug } from "../../../../chunks/registry.js";
 import { t as CodeBlock } from "../../../../chunks/CodeBlock.js";
-import { A as Dialog_content, B as Card_footer, C as flag, D as Dialog_header, E as Dialog_title, F as Label, G as Badge, H as Card_content, I as Checkbox, J as Alert, K as Avatar, L as Card, M as Date_picker$1, N as Calendar_1, O as Dialog_footer, P as Input, R as Card_title, S as Menu, T as Dialog_trigger, U as Card_action, V as Card_description, W as Button, Y as Alert_description, _ as Select_content, a as Textarea, b as Progress, c as Tabs_list, d as Streak_tracker$1, f as Stepper, g as Select_item, h as Select_trigger, i as Tooltip_content, j as Dialog_close, k as Dialog_description, l as Tabs, m as Select, n as Root, o as Tabs_content, p as Skeleton, q as Icon, r as Trigger, s as Tabs_trigger, t as Provider, u as Switch, v as Radio_group$1, w as Dialog, x as Menu_item, y as Radio_group_item, z as Card_header } from "../../../../chunks/tooltip.js";
+import { A as Dialog_content, B as Card_description, C as flag, D as Dialog_header, E as Dialog_title, F as Label, G as Icon, H as Button, I as Checkbox, K as Alert, L as Card, M as Date_picker$1, N as Calendar_1, O as Dialog_footer, P as Input, R as Card_title, S as Menu, T as Dialog_trigger, U as Badge, V as Card_content, W as Avatar, _ as Select_content, a as Textarea, b as Progress, c as Tabs_list, d as Streak_tracker$1, f as Stepper, g as Select_item, h as Select_trigger, i as Tooltip_content, j as Dialog_close, k as Dialog_description, l as Tabs, m as Select, n as Root, o as Tabs_content, p as Skeleton, q as Alert_description, r as Trigger, s as Tabs_trigger, t as Provider, u as Switch, v as Radio_group$1, w as Dialog, x as Menu_item, y as Radio_group_item, z as Card_header } from "../../../../chunks/tooltip.js";
 // src/lib/docs/Example.svelte
 function Example($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
@@ -397,6 +397,34 @@ function Button_1($$renderer) {
 		$$slots: { default: true }
 	});
 	$$renderer.push(`<!---->`);
+}
+// src/lib/components/ui/card/card-action.svelte
+function Card_action($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, class: className, children, $$slots, $$events, ...restProps } = $$props;
+		$$renderer.push(`<div${attributes({
+			"data-slot": "card-action",
+			class: clsx(cn("col-start-2 row-span-2 row-start-1 self-start justify-self-end", className)),
+			...restProps
+		})}>`);
+		children?.($$renderer);
+		$$renderer.push(`<!----></div>`);
+		bind_props($$props, { ref });
+	});
+}
+// src/lib/components/ui/card/card-footer.svelte
+function Card_footer($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, class: className, children, $$slots, $$events, ...restProps } = $$props;
+		$$renderer.push(`<div${attributes({
+			"data-slot": "card-footer",
+			class: clsx(cn("rounded-b-4xl px-(--card-spacing) [.border-t]:pt-(--card-spacing) flex items-center", className)),
+			...restProps
+		})}>`);
+		children?.($$renderer);
+		$$renderer.push(`<!----></div>`);
+		bind_props($$props, { ref });
+	});
 }
 // src/lib/docs/demos/card.svelte
 var card_exports = /* @__PURE__ */ __exportAll({ default: () => Card_1 });

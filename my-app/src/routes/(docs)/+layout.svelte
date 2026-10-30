@@ -116,6 +116,13 @@
 		>
 			Introduction
 		</a>
+		<a
+			href="/installation"
+			aria-current={page.url.pathname === '/installation' ? 'page' : undefined}
+			class="hover:bg-(--grey-800)/50 aria-[current=page]:bg-card focus-visible:ring-ring/50 -mt-4 mb-6 block rounded-md px-3 py-2 text-sm leading-5 font-medium outline-none focus-visible:ring-3"
+		>
+			Installation
+		</a>
 		{#each grouped as g}
 			<div class="mb-6">
 				<h2 class="mb-1 px-3 text-xs leading-4 font-medium tracking-wide text-(--grey-400) uppercase">{g.group}</h2>

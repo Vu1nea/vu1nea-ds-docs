@@ -1,21 +1,63 @@
 {
-	"name": "my-app",
-	"private": true,
-	"version": "0.0.1",
+	"name": "@vu1nea/guinea-design",
+	"version": "0.1.0",
+	"description": "Dark-first Svelte 5 component library built on bits-ui and Tailwind 4.",
+	"license": "MIT",
 	"type": "module",
 	"engines": {
-		"node": "22.x"
+		"node": "^22 || ^24"
 	},
+	"sideEffects": [
+		"**/*.css"
+	],
+	"svelte": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js",
+			"default": "./dist/index.js"
+		},
+		"./theme.css": "./dist/theme.css",
+		"./ui/*": {
+			"types": "./dist/components/ui/*/index.d.ts",
+			"svelte": "./dist/components/ui/*/index.js",
+			"default": "./dist/components/ui/*/index.js"
+		}
+	},
+	"files": [
+		"dist",
+		"!dist/docs",
+		"!dist/assets",
+		"!dist/**/*.test.*",
+		"!dist/**/*.spec.*"
+	],
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"package": "svelte-kit sync && svelte-package && publint",
+		"prepublishOnly": "npm run package"
+	},
+	"dependencies": {
+		"cn": "^0.5.0",
+		"tailwind-variants": "^3.3.1",
+		"tw-animate-css": "^1.4.0",
+		"shadcn-svelte": "^1.7.1",
+		"@fontsource-variable/instrument-sans": "^5.3.0"
+	},
+	"peerDependencies": {
+		"svelte": "^5.0.0",
+		"bits-ui": "^2.0.0",
+		"@internationalized/date": "^3.0.0",
+		"svelte-sonner": "^1.0.0",
+		"@lucide/svelte": ">=0.400.0",
+		"tailwindcss": "^4.0.0"
 	},
 	"devDependencies": {
-		"@fontsource-variable/instrument-sans": "^5.3.0",
 		"@fontsource-variable/inter": "^5.3.0",
 		"@internationalized/date": "^3.12.4",
 		"@lucide/svelte": "^1.61.0",
@@ -24,16 +66,14 @@
 		"@sveltejs/vite-plugin-svelte": "^7.0.0",
 		"@tailwindcss/vite": "^4.2.2",
 		"bits-ui": "^2.20.2",
-		"cn": "^0.5.0",
 		"mode-watcher": "^1.1.0",
-		"shadcn-svelte": "^1.7.1",
 		"svelte": "^5.55.2",
 		"svelte-check": "^4.4.6",
 		"svelte-sonner": "^1.2.2",
-		"tailwind-variants": "^3.3.1",
 		"tailwindcss": "^4.2.2",
-		"tw-animate-css": "^1.4.0",
 		"typescript": "^6.0.2",
-		"vite": "^8.0.7"
+		"vite": "^8.0.7",
+		"@sveltejs/package": "^3.0.2",
+		"publint": "^0.3.0"
 	}
 }

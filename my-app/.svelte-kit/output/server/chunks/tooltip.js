@@ -10782,20 +10782,6 @@ function Button($$renderer, $$props) {
 		bind_props($$props, { ref });
 	});
 }
-// src/lib/components/ui/card/card-action.svelte
-function Card_action($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, children, $$slots, $$events, ...restProps } = $$props;
-		$$renderer.push(`<div${attributes({
-			"data-slot": "card-action",
-			class: clsx$1(cn("col-start-2 row-span-2 row-start-1 self-start justify-self-end", className)),
-			...restProps
-		})}>`);
-		children?.($$renderer);
-		$$renderer.push(`<!----></div>`);
-		bind_props($$props, { ref });
-	});
-}
 // src/lib/components/ui/card/card-content.svelte
 function Card_content($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
@@ -10821,20 +10807,6 @@ function Card_description($$renderer, $$props) {
 		})}>`);
 		children?.($$renderer);
 		$$renderer.push(`<!----></p>`);
-		bind_props($$props, { ref });
-	});
-}
-// src/lib/components/ui/card/card-footer.svelte
-function Card_footer($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, children, $$slots, $$events, ...restProps } = $$props;
-		$$renderer.push(`<div${attributes({
-			"data-slot": "card-footer",
-			class: clsx$1(cn("rounded-b-4xl px-(--card-spacing) [.border-t]:pt-(--card-spacing) flex items-center", className)),
-			...restProps
-		})}>`);
-		children?.($$renderer);
-		$$renderer.push(`<!----></div>`);
 		bind_props($$props, { ref });
 	});
 }
@@ -13643,4 +13615,4 @@ function Tooltip_content($$renderer, $$props) {
 var Root = Tooltip;
 var Trigger = Tooltip_trigger;
 var Provider = Tooltip_provider;
-export { Dialog_content as A, Card_footer as B, flag as C, Dialog_header as D, Dialog_title as E, Label as F, Badge as G, Card_content as H, Checkbox as I, Alert as J, Avatar as K, Card as L, Date_picker as M, Calendar_1 as N, Dialog_footer as O, Input as P, Card_title as R, Menu as S, Dialog_trigger as T, Card_action as U, Card_description as V, Button as W, Alert_description as Y, Select_content as _, Textarea as a, Progress as b, Tabs_list as c, Streak_tracker as d, Stepper as f, Select_item as g, Select_trigger as h, Tooltip_content as i, Dialog_close as j, Dialog_description as k, Tabs as l, Select as m, Root as n, Tabs_content as o, Skeleton as p, Icon as q, Trigger as r, Tabs_trigger as s, Provider as t, Switch as u, Radio_group as v, Dialog as w, Menu_item as x, Radio_group_item as y, Card_header as z };
+export { Dialog_content as A, Card_description as B, flag as C, Dialog_header as D, Dialog_title as E, Label as F, Icon as G, Button as H, Checkbox as I, Alert as K, Card as L, Date_picker as M, Calendar_1 as N, Dialog_footer as O, Input as P, Card_title as R, Menu as S, Dialog_trigger as T, Badge as U, Card_content as V, Avatar as W, Select_content as _, Textarea as a, Progress as b, Tabs_list as c, Streak_tracker as d, Stepper as f, Select_item as g, Select_trigger as h, Tooltip_content as i, Dialog_close as j, Dialog_description as k, Tabs as l, Select as m, Root as n, Tabs_content as o, Skeleton as p, Alert_description as q, Trigger as r, Tabs_trigger as s, Provider as t, Switch as u, Radio_group as v, Dialog as w, Menu_item as x, Radio_group_item as y, Card_header as z };

@@ -14,15 +14,17 @@ export const nodes = [
 	() => import('./nodes/2'),
 	() => import('./nodes/3'),
 	() => import('./nodes/4'),
-	() => import('./nodes/5')
+	() => import('./nodes/5'),
+	() => import('./nodes/6')
 ];
 
 export const server_loads = [];
 
 export const dictionary = {
 		"/(docs)": [3,[2]],
-		"/playground": [5],
-		"/(docs)/[slug]": [4,[2]]
+		"/(docs)/installation": [4,[2]],
+		"/playground": [6],
+		"/(docs)/[slug]": [5,[2]]
 	};
 
 export const hooks = {

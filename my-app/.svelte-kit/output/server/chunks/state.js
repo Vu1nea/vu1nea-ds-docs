@@ -1,7 +1,6 @@
 import { t as index_server_exports } from "./index-server.js";
 import { _ as noop } from "./shared.js";
 import "./internal.js";
-import "./internal2.js";
 import "./exports.js";
 import { Ut as noop$1, v as getContext } from "./server.js";
 import "@sveltejs/kit/internal";

@@ -1,6 +1,7 @@
 {
 	"/(docs)": [],
 	"/": [],
+	"/(docs)/installation": [],
 	"/playground": [],
 	"/(docs)/[slug]": [
 		"src/routes/(docs)/[slug]/+page.ts"
