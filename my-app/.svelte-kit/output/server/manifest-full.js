@@ -10,7 +10,7 @@ return {
 	assets: new Set(["robots.txt"]),
 	mimeTypes: {".txt":"text/plain"},
 	_: {
-		client: {start:"_app/immutable/entry/start.H9KJ_z-_.js",app:"_app/immutable/entry/app.eESfymIR.js",imports:["_app/immutable/entry/start.H9KJ_z-_.js","_app/immutable/chunks/CB_15myh.js","_app/immutable/chunks/umTCdD-Z.js","_app/immutable/chunks/Dt-HX3Vu.js","_app/immutable/entry/app.eESfymIR.js","_app/immutable/chunks/umTCdD-Z.js","_app/immutable/chunks/xihTtKlq.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
+		client: {start:"_app/immutable/entry/start.BaZ2jSCM.js",app:"_app/immutable/entry/app.SPX2nfG9.js",imports:["_app/immutable/entry/start.BaZ2jSCM.js","_app/immutable/chunks/BSGanfHh.js","_app/immutable/chunks/umTCdD-Z.js","_app/immutable/chunks/Dt-HX3Vu.js","_app/immutable/entry/app.SPX2nfG9.js","_app/immutable/chunks/umTCdD-Z.js","_app/immutable/chunks/xihTtKlq.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
 		nodes: [
 			__memo(() => import('./nodes/0.js')),
 			__memo(() => import('./nodes/1.js')),
@@ -24,24 +24,24 @@ return {
 		},
 		routes: [
 			{
-				id: "/",
+				id: "/(docs)",
 				pattern: /^\/$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 3 },
+				page: { layouts: [0,2,], errors: [1,,], leaf: 3 },
 				endpoint: null
 			},
 			{
-				id: "/docs",
-				pattern: /^\/docs\/?$/,
+				id: "/playground",
+				pattern: /^\/playground\/?$/,
 				params: [],
-				page: { layouts: [0,2,], errors: [1,,], leaf: 4 },
+				page: { layouts: [0,], errors: [1,], leaf: 5 },
 				endpoint: null
 			},
 			{
-				id: "/docs/[slug]",
-				pattern: /^\/docs\/([^/]+?)\/?$/,
+				id: "/(docs)/[slug]",
+				pattern: /^\/([^/]+?)\/?$/,
 				params: [{"name":"slug","optional":false,"rest":false,"chained":false}],
-				page: { layouts: [0,2,], errors: [1,,], leaf: 5 },
+				page: { layouts: [0,2,], errors: [1,,], leaf: 4 },
 				endpoint: null
 			}
 		],

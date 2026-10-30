@@ -2,8 +2,8 @@ import { l as __exportAll } from "../../../../chunks/index-server.js";
 import { D as escape_html, E as clsx, T as attr, a as derived, c as head, d as spread_props, f as stringify, s as ensure_array_like, t as attr_class } from "../../../../chunks/server.js";
 import { t as cn } from "../../../../chunks/utils2.js";
 import { i as ordered, t as bySlug } from "../../../../chunks/registry.js";
-import { A as Select, B as Card_content, C as Dialog_header, D as Dialog_close, E as Dialog_content, F as Card, G as Progress, H as Alert, I as Card_title, J as Badge, K as Label, L as Card_header, M as Icon, N as Select_item, O as Radio_group$1, P as Select_content, R as Card_footer, S as Dialog_title, T as Dialog_description, U as Alert_description, V as Card_action, W as Skeleton, Y as Button, _ as Stepper, a as Tabs_content, b as Dialog, c as Tabs, d as Switch, f as Checkbox, g as Menu, h as Menu_item, i as Tooltip_content, j as Select_trigger, k as Radio_group_item, l as Avatar, m as Streak_tracker$1, n as Root, o as Tabs_trigger, p as Date_picker$1, q as Input, r as Trigger, s as Tabs_list, t as Provider, u as Textarea, v as Calendar_1, w as Dialog_footer, x as Dialog_trigger, y as flag, z as Card_description } from "../../../../chunks/tooltip.js";
 import { t as CodeBlock } from "../../../../chunks/CodeBlock.js";
+import { A as Dialog_content, B as Card_footer, C as flag, D as Dialog_header, E as Dialog_title, F as Label, G as Badge, H as Card_content, I as Checkbox, J as Alert, K as Avatar, L as Card, M as Date_picker$1, N as Calendar_1, O as Dialog_footer, P as Input, R as Card_title, S as Menu, T as Dialog_trigger, U as Card_action, V as Card_description, W as Button, Y as Alert_description, _ as Select_content, a as Textarea, b as Progress, c as Tabs_list, d as Streak_tracker$1, f as Stepper, g as Select_item, h as Select_trigger, i as Tooltip_content, j as Dialog_close, k as Dialog_description, l as Tabs, m as Select, n as Root, o as Tabs_content, p as Skeleton, q as Icon, r as Trigger, s as Tabs_trigger, t as Provider, u as Switch, v as Radio_group$1, w as Dialog, x as Menu_item, y as Radio_group_item, z as Card_header } from "../../../../chunks/tooltip.js";
 // src/lib/docs/Example.svelte
 function Example($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
@@ -174,7 +174,7 @@ function Badge_1($$renderer) {
 <Badge variant="dark" color="light">Label</Badge>`;
 	const extraCode = `<Badge rounded>Rounded</Badge>
 <Badge indicator>With indicator</Badge>
-<Badge href="/docs">As a link</Badge>`;
+<Badge href="/">As a link</Badge>`;
 	Example($$renderer, {
 		title: "Light",
 		description: "Bright fill, dark text.",
@@ -241,7 +241,7 @@ function Badge_1($$renderer) {
 			});
 			$$renderer.push(`<!----> `);
 			Badge($$renderer, {
-				href: "/docs",
+				href: "/",
 				children: ($$renderer) => {
 					$$renderer.push(`<!---->As a link`);
 				},
@@ -2448,7 +2448,7 @@ function PropsTable($$renderer, $$props) {
 	}
 	$$renderer.push(`<!--]--></div>`);
 }
-// src/routes/docs/[slug]/+page.svelte
+// src/routes/(docs)/[slug]/+page.svelte
 function _page($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
 		let { data } = $$props;
@@ -2482,7 +2482,7 @@ function _page($$renderer, $$props) {
 		const next = derived(() => ordered[index() + 1]);
 		let toc = [];
 		let activeId = "";
-		head("11o795e", $$renderer, ($$renderer) => {
+		head("vn19b9", $$renderer, ($$renderer) => {
 			$$renderer.title(($$renderer) => {
 				$$renderer.push(`<title>${escape_html(entry().title)} · Guinea Design Docs</title>`);
 			});
@@ -2512,10 +2512,10 @@ function _page($$renderer, $$props) {
 		$$renderer.push(`<!--]--> <section class="flex flex-col gap-4"><h2 id="props" class="scroll-mt-24 text-xl leading-7 font-bold"><a href="#props" class="hover:text-(--purple-300) rounded-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/50">Props</a></h2> `);
 		PropsTable($$renderer, { tables: entry().tables });
 		$$renderer.push(`<!----></section> <nav aria-label="Pagination" class="border-card mt-4 grid grid-cols-2 gap-4 border-t pt-6">`);
-		if (prev()) $$renderer.push(`<!--[0--><a${attr("href", `/docs/${stringify(prev().slug)}`)} class="border-card hover:border-(--purple-400) flex flex-col gap-1 rounded-lg border p-4 transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50"><span class="text-xs leading-4 text-(--grey-400)">Previous</span> <span class="text-sm leading-5 font-bold">${escape_html(prev().title)}</span></a>`);
+		if (prev()) $$renderer.push(`<!--[0--><a${attr("href", `/${stringify(prev().slug)}`)} class="border-card hover:border-(--purple-400) flex flex-col gap-1 rounded-lg border p-4 transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50"><span class="text-xs leading-4 text-(--grey-400)">Previous</span> <span class="text-sm leading-5 font-bold">${escape_html(prev().title)}</span></a>`);
 		else $$renderer.push(`<!--[-1--><span></span>`);
 		$$renderer.push(`<!--]--> `);
-		if (next()) $$renderer.push(`<!--[0--><a${attr("href", `/docs/${stringify(next().slug)}`)} class="border-card hover:border-(--purple-400) flex flex-col gap-1 rounded-lg border p-4 text-right transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50"><span class="text-xs leading-4 text-(--grey-400)">Next</span> <span class="text-sm leading-5 font-bold">${escape_html(next().title)}</span></a>`);
+		if (next()) $$renderer.push(`<!--[0--><a${attr("href", `/${stringify(next().slug)}`)} class="border-card hover:border-(--purple-400) flex flex-col gap-1 rounded-lg border p-4 text-right transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50"><span class="text-xs leading-4 text-(--grey-400)">Next</span> <span class="text-sm leading-5 font-bold">${escape_html(next().title)}</span></a>`);
 		else $$renderer.push("<!--[-1-->");
 		$$renderer.push(`<!--]--></nav></article> `);
 		if (toc.length > 1) {

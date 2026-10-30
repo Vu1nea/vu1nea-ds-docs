@@ -63,13 +63,13 @@
 
 		<nav aria-label="Pagination" class="border-card mt-4 grid grid-cols-2 gap-4 border-t pt-6">
 			{#if prev}
-				<a href="/docs/{prev.slug}" class="border-card hover:border-(--purple-400) flex flex-col gap-1 rounded-lg border p-4 transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
+				<a href="/{prev.slug}" class="border-card hover:border-(--purple-400) flex flex-col gap-1 rounded-lg border p-4 transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
 					<span class="text-xs leading-4 text-(--grey-400)">Previous</span>
 					<span class="text-sm leading-5 font-bold">{prev.title}</span>
 				</a>
 			{:else}<span></span>{/if}
 			{#if next}
-				<a href="/docs/{next.slug}" class="border-card hover:border-(--purple-400) flex flex-col gap-1 rounded-lg border p-4 text-right transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
+				<a href="/{next.slug}" class="border-card hover:border-(--purple-400) flex flex-col gap-1 rounded-lg border p-4 text-right transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
 					<span class="text-xs leading-4 text-(--grey-400)">Next</span>
 					<span class="text-sm leading-5 font-bold">{next.title}</span>
 				</a>

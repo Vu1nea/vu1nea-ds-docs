@@ -60,7 +60,7 @@
 					{#each g.items as item}
 						<li>
 							<a
-								href="/docs/{item.slug}"
+								href="/{item.slug}"
 								class="border-card hover:border-(--purple-400) hover:bg-card/50 focus-visible:ring-ring/50 flex h-full flex-col gap-1 rounded-lg border p-4 transition-colors outline-none focus-visible:ring-3"
 							>
 								<span class="text-base leading-6 font-bold">{item.title}</span>

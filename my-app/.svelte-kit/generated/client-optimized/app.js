@@ -20,9 +20,9 @@ export const nodes = [
 export const server_loads = [];
 
 export const dictionary = {
-		"/": [3],
-		"/docs": [4,[2]],
-		"/docs/[slug]": [5,[2]]
+		"/(docs)": [3,[2]],
+		"/playground": [5],
+		"/(docs)/[slug]": [4,[2]]
 	};
 
 export const hooks = {

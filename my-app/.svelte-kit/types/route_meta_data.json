@@ -1,7 +1,8 @@
 {
+	"/(docs)": [],
 	"/": [],
-	"/docs": [],
-	"/docs/[slug]": [
-		"src/routes/docs/[slug]/+page.ts"
+	"/playground": [],
+	"/(docs)/[slug]": [
+		"src/routes/(docs)/[slug]/+page.ts"
 	]
 }

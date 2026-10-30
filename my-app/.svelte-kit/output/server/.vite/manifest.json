@@ -170,6 +170,52 @@
       "_env.js"
     ]
   },
+  "src/routes/(docs)/+layout.svelte": {
+    "file": "entries/pages/(docs)/_layout.svelte.js",
+    "name": "entries/pages/(docs)/_layout.svelte",
+    "src": "src/routes/(docs)/+layout.svelte",
+    "isEntry": true,
+    "imports": [
+      "_server.js",
+      "_state.js",
+      "_utils2.js",
+      "_registry.js"
+    ]
+  },
+  "src/routes/(docs)/+page.svelte": {
+    "file": "entries/pages/(docs)/_page.svelte.js",
+    "name": "entries/pages/(docs)/_page.svelte",
+    "src": "src/routes/(docs)/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_server.js",
+      "_registry.js",
+      "_CodeBlock.js"
+    ]
+  },
+  "src/routes/(docs)/[slug]/+page.svelte": {
+    "file": "entries/pages/(docs)/_slug_/_page.svelte.js",
+    "name": "entries/pages/(docs)/_slug_/_page.svelte",
+    "src": "src/routes/(docs)/[slug]/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index-server.js",
+      "_server.js",
+      "_utils2.js",
+      "_registry.js",
+      "_CodeBlock.js",
+      "_tooltip.js"
+    ]
+  },
+  "src/routes/(docs)/[slug]/+page.ts": {
+    "file": "entries/pages/(docs)/_slug_/_page.ts.js",
+    "name": "entries/pages/(docs)/_slug_/_page.ts",
+    "src": "src/routes/(docs)/[slug]/+page.ts",
+    "isEntry": true,
+    "imports": [
+      "_registry.js"
+    ]
+  },
   "src/routes/+layout.svelte": {
     "file": "entries/pages/_layout.svelte.js",
     "name": "entries/pages/_layout.svelte",
@@ -188,60 +234,14 @@
       "_app/immutable/assets/instrument-sans-latin-wght-normal.BbzFLZTg.woff2"
     ]
   },
-  "src/routes/+page.svelte": {
-    "file": "entries/pages/_page.svelte.js",
-    "name": "entries/pages/_page.svelte",
-    "src": "src/routes/+page.svelte",
+  "src/routes/playground/+page.svelte": {
+    "file": "entries/pages/playground/_page.svelte.js",
+    "name": "entries/pages/playground/_page.svelte",
+    "src": "src/routes/playground/+page.svelte",
     "isEntry": true,
     "imports": [
       "_server.js",
       "_tooltip.js"
-    ]
-  },
-  "src/routes/docs/+layout.svelte": {
-    "file": "entries/pages/docs/_layout.svelte.js",
-    "name": "entries/pages/docs/_layout.svelte",
-    "src": "src/routes/docs/+layout.svelte",
-    "isEntry": true,
-    "imports": [
-      "_server.js",
-      "_state.js",
-      "_utils2.js",
-      "_registry.js"
-    ]
-  },
-  "src/routes/docs/+page.svelte": {
-    "file": "entries/pages/docs/_page.svelte.js",
-    "name": "entries/pages/docs/_page.svelte",
-    "src": "src/routes/docs/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "_server.js",
-      "_registry.js",
-      "_CodeBlock.js"
-    ]
-  },
-  "src/routes/docs/[slug]/+page.svelte": {
-    "file": "entries/pages/docs/_slug_/_page.svelte.js",
-    "name": "entries/pages/docs/_slug_/_page.svelte",
-    "src": "src/routes/docs/[slug]/+page.svelte",
-    "isEntry": true,
-    "imports": [
-      "_index-server.js",
-      "_server.js",
-      "_utils2.js",
-      "_registry.js",
-      "_tooltip.js",
-      "_CodeBlock.js"
-    ]
-  },
-  "src/routes/docs/[slug]/+page.ts": {
-    "file": "entries/pages/docs/_slug_/_page.ts.js",
-    "name": "entries/pages/docs/_slug_/_page.ts",
-    "src": "src/routes/docs/[slug]/+page.ts",
-    "isEntry": true,
-    "imports": [
-      "_registry.js"
     ]
   },
   "virtual:__sveltekit/env": {

@@ -56,6 +56,7 @@ declare module '$env/static/private' {
 	export const CLAUDE_CODE_CHILD_SESSION: string;
 	export const CLAUDE_CODE_ENTRYPOINT: string;
 	export const CLAUDE_CODE_SESSION_ID: string;
+	export const EFC_11016_344590478: string;
 	export const CLAUDE_CODE_MESSAGING_SOCKET: string;
 	export const npm_config_engine_strict: string;
 	export const CLAUDE_CODE_MESSAGING_TOKEN: string;
@@ -88,7 +89,6 @@ declare module '$env/static/private' {
 	export const DriverData: string;
 	export const EFC_11016_1262719628: string;
 	export const EFC_11016_2283032206: string;
-	export const npm_config_noproxy: string;
 	export const FPS_BROWSER_APP_PROFILE_STRING: string;
 	export const npm_config_metrics_registry: string;
 	export const FPS_BROWSER_USER_PROFILE_STRING: string;
@@ -104,6 +104,7 @@ declare module '$env/static/private' {
 	export const npm_command: string;
 	export const npm_config_cache: string;
 	export const npm_config_globalconfig: string;
+	export const npm_config_noproxy: string;
 	export const npm_config_prefix: string;
 	export const npm_config_user_agent: string;
 	export const npm_execpath: string;
@@ -259,6 +260,7 @@ declare module '$env/dynamic/private' {
 		CLAUDE_CODE_CHILD_SESSION: string;
 		CLAUDE_CODE_ENTRYPOINT: string;
 		CLAUDE_CODE_SESSION_ID: string;
+		EFC_11016_344590478: string;
 		CLAUDE_CODE_MESSAGING_SOCKET: string;
 		npm_config_engine_strict: string;
 		CLAUDE_CODE_MESSAGING_TOKEN: string;
@@ -291,7 +293,6 @@ declare module '$env/dynamic/private' {
 		DriverData: string;
 		EFC_11016_1262719628: string;
 		EFC_11016_2283032206: string;
-		npm_config_noproxy: string;
 		FPS_BROWSER_APP_PROFILE_STRING: string;
 		npm_config_metrics_registry: string;
 		FPS_BROWSER_USER_PROFILE_STRING: string;
@@ -307,6 +308,7 @@ declare module '$env/dynamic/private' {
 		npm_command: string;
 		npm_config_cache: string;
 		npm_config_globalconfig: string;
+		npm_config_noproxy: string;
 		npm_config_prefix: string;
 		npm_config_user_agent: string;
 		npm_execpath: string;

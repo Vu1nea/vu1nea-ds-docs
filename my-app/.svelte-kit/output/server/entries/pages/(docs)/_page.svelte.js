@@ -1,7 +1,7 @@
 import { D as escape_html, T as attr, c as head, f as stringify, s as ensure_array_like, t as attr_class } from "../../../chunks/server.js";
 import { n as entries, r as grouped } from "../../../chunks/registry.js";
 import { t as CodeBlock } from "../../../chunks/CodeBlock.js";
-// src/routes/docs/+page.svelte
+// src/routes/(docs)/+page.svelte
 function _page($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
 		const tokens = [
@@ -47,7 +47,7 @@ function _page($$renderer, $$props) {
 <\/script>
 
 <Button color="purple" rounded>Get started</Button>`;
-		head("1xmjmrw", $$renderer, ($$renderer) => {
+		head("3ef0v", $$renderer, ($$renderer) => {
 			$$renderer.title(($$renderer) => {
 				$$renderer.push(`<title>Introduction · Guinea Design Docs</title>`);
 			});
@@ -68,7 +68,7 @@ function _page($$renderer, $$props) {
 			const each_array_2 = ensure_array_like(g.items);
 			for (let $$index_1 = 0, $$length = each_array_2.length; $$index_1 < $$length; $$index_1++) {
 				let item = each_array_2[$$index_1];
-				$$renderer.push(`<li><a${attr("href", `/docs/${stringify(item.slug)}`)} class="border-card hover:border-(--purple-400) hover:bg-card/50 focus-visible:ring-ring/50 flex h-full flex-col gap-1 rounded-lg border p-4 transition-colors outline-none focus-visible:ring-3"><span class="text-base leading-6 font-bold">${escape_html(item.title)}</span> <span class="text-sm leading-5 text-(--grey-300)">${escape_html(item.description.replace(/`/g, ""))}</span></a></li>`);
+				$$renderer.push(`<li><a${attr("href", `/${stringify(item.slug)}`)} class="border-card hover:border-(--purple-400) hover:bg-card/50 focus-visible:ring-ring/50 flex h-full flex-col gap-1 rounded-lg border p-4 transition-colors outline-none focus-visible:ring-3"><span class="text-base leading-6 font-bold">${escape_html(item.title)}</span> <span class="text-sm leading-5 text-(--grey-300)">${escape_html(item.description.replace(/`/g, ""))}</span></a></li>`);
 			}
 			$$renderer.push(`<!--]--></ul></div>`);
 		}

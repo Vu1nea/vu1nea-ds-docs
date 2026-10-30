@@ -14,7 +14,7 @@
 <Badge variant="dark" color="light">Label</Badge>`;
 	const extraCode = `<Badge rounded>Rounded</Badge>
 <Badge indicator>With indicator</Badge>
-<Badge href="/docs">As a link</Badge>`;
+<Badge href="/">As a link</Badge>`;
 </script>
 
 <Example title="Light" description="Bright fill, dark text." code={lightCode}>
@@ -28,5 +28,5 @@
 <Example title="Rounded, indicator and link" code={extraCode}>
 	<Badge rounded>Rounded</Badge>
 	<Badge indicator>With indicator</Badge>
-	<Badge href="/docs">As a link</Badge>
+	<Badge href="/">As a link</Badge>
 </Example>

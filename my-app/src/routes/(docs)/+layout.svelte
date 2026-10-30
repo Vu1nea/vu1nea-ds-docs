@@ -31,14 +31,14 @@
 	}
 
 	function onSearchKey(e: KeyboardEvent) {
-		if (e.key === 'Enter' && results[0]) goto(`/docs/${results[0].slug}`);
+		if (e.key === 'Enter' && results[0]) goto(`/${results[0].slug}`);
 		if (e.key === 'Escape') {
 			query = '';
 			searchEl?.blur();
 		}
 	}
 
-	const isActive = (slug: string) => page.url.pathname === `/docs/${slug}`;
+	const isActive = (slug: string) => page.url.pathname === `/${slug}`;
 </script>
 
 <svelte:window onkeydown={onWindowKey} />
@@ -60,7 +60,7 @@
 		</svg>
 	</button>
 
-	<a href="/docs" class="focus-visible:ring-ring/50 flex items-center gap-2 rounded-md text-lg leading-6 font-bold outline-none focus-visible:ring-3">
+	<a href="/" class="focus-visible:ring-ring/50 flex items-center gap-2 rounded-md text-lg leading-6 font-bold outline-none focus-visible:ring-3">
 		<span class="bg-primary grid size-7 place-items-center rounded-md text-sm" aria-hidden="true">G</span>
 		Guinea Design
 		<span class="text-xs font-medium text-(--grey-400)">Docs</span>
@@ -85,7 +85,7 @@
 			<ul class="bg-card absolute top-12 left-0 z-40 w-full overflow-hidden rounded-lg py-1 shadow-lg">
 				{#each results as r}
 					<li>
-						<a href="/docs/{r.slug}" class="hover:bg-(--grey-700) flex items-baseline justify-between gap-4 px-3 py-2 text-sm leading-5">
+						<a href="/{r.slug}" class="hover:bg-(--grey-700) flex items-baseline justify-between gap-4 px-3 py-2 text-sm leading-5">
 							<span class="font-medium">{r.title}</span>
 							<span class="text-xs text-(--grey-400)">{r.group}</span>
 						</a>
@@ -97,7 +97,7 @@
 		{/if}
 	</div>
 
-	<a href="/" class="text-(--grey-300) hover:text-foreground hidden shrink-0 rounded-md text-sm leading-5 outline-none focus-visible:underline sm:block">Playground</a>
+	<a href="/playground" class="text-(--grey-300) hover:text-foreground hidden shrink-0 rounded-md text-sm leading-5 outline-none focus-visible:underline sm:block">Playground</a>
 </header>
 
 <div class="mx-auto flex max-w-[90rem]">
@@ -110,8 +110,8 @@
 		)}
 	>
 		<a
-			href="/docs"
-			aria-current={page.url.pathname === '/docs' ? 'page' : undefined}
+			href="/"
+			aria-current={page.url.pathname === '/' ? 'page' : undefined}
 			class="hover:bg-(--grey-800)/50 aria-[current=page]:bg-card focus-visible:ring-ring/50 mb-6 block rounded-md px-3 py-2 text-sm leading-5 font-medium outline-none focus-visible:ring-3"
 		>
 			Introduction
@@ -123,7 +123,7 @@
 					{#each g.items as item}
 						<li>
 							<a
-								href="/docs/{item.slug}"
+								href="/{item.slug}"
 								aria-current={isActive(item.slug) ? 'page' : undefined}
 								class="hover:bg-(--grey-800)/50 aria-[current=page]:bg-card aria-[current=page]:text-(--purple-300) focus-visible:ring-ring/50 block rounded-md px-3 py-1.5 text-sm leading-5 text-(--grey-200) outline-none focus-visible:ring-3 aria-[current=page]:font-medium"
 							>

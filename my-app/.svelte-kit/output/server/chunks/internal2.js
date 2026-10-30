@@ -211,10 +211,10 @@ var options = {
 	service_worker_options: void 0,
 	server_error_boundaries: false,
 	templates: {
-		app: ({ head, body, assets, nonce, env }) => "<!doctype html>\n<html lang=\"en\" class=\"dark\">\n	<head>\n		<meta charset=\"utf-8\" />\n		<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n		<meta name=\"text-scale\" content=\"scale\" />\n		" + head + "\n	</head>\n	<body data-sveltekit-preload-data=\"hover\">\n		<div style=\"display: contents\">" + body + "</div>\n	</body>\n</html>\n",
+		app: ({ head, body, assets, nonce, env }) => "<!doctype html>\r\n<html lang=\"en\" class=\"dark\">\r\n	<head>\r\n		<meta charset=\"utf-8\" />\r\n		<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\r\n		<meta name=\"text-scale\" content=\"scale\" />\r\n		" + head + "\r\n	</head>\r\n	<body data-sveltekit-preload-data=\"hover\">\r\n		<div style=\"display: contents\">" + body + "</div>\r\n	</body>\r\n</html>\r\n",
 		error: error_template_default
 	},
-	version_hash: "1x3j53s"
+	version_hash: "3r263d"
 };
 async function get_hooks() {
 	let handle;

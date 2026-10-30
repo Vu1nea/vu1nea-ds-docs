@@ -10,253 +10,127 @@ import parse from "style-to-object";
 import { focusable, isFocusable, isTabbable, tabbable } from "tabbable";
 import { CalendarDate, CalendarDateTime, DateFormatter, ZonedDateTime, endOfMonth, getDayOfWeek, getLocalTimeZone, isEqualMonth, isSameDay, isSameMonth, parseDate, parseDateTime, parseZonedDateTime, startOfMonth, toCalendar, toCalendarDate, today } from "@internationalized/date";
 import { arrow, autoUpdate, computePosition, flip, hide, limitShift, offset, shift, size } from "@floating-ui/dom";
-// src/lib/components/ui/button/button.svelte
-var buttonVariants = tv({
-	base: "focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive font-normal focus-visible:ring-3 aria-invalid:ring-3 [&_svg:not([class*='size-'])]:size-4 group/button inline-flex shrink-0 items-center justify-center whitespace-nowrap transition-colors outline-none select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
-	variants: {
-		variant: {
-			default: "",
-			outline: "border bg-transparent hover:bg-current/10 active:bg-current/20",
-			secondary: "bg-secondary text-secondary-foreground hover:bg-(--grey-500)",
-			ghost: "hover:bg-(--grey-700) hover:text-foreground active:bg-(--grey-600)",
-			destructive: "",
-			link: "text-primary underline-offset-4 hover:underline"
-		},
-		color: {
-			purple: "",
-			orange: "",
-			blue: "",
-			light: "",
-			error: ""
-		},
-		size: {
-			default: "gap-2.5 px-4 py-3 text-sm leading-5",
-			lg: "gap-2.5 px-6 py-3.5 text-base",
-			icon: "size-11",
-			"icon-lg": "size-12"
-		},
-		rounded: {
-			false: "rounded-md",
-			true: "rounded-full"
-		}
-	},
-	compoundVariants: [
-		{
-			variant: "default",
-			color: "purple",
-			class: "bg-primary text-foreground hover:bg-primary-hover active:bg-primary-active"
-		},
-		{
-			variant: "default",
-			color: "orange",
-			class: "bg-orange text-white hover:bg-orange-hover active:bg-orange-active"
-		},
-		{
-			variant: "default",
-			color: "blue",
-			class: "bg-blue text-foreground hover:bg-blue-hover active:bg-blue-active"
-		},
-		{
-			variant: "default",
-			color: "light",
-			class: "bg-foreground text-background hover:bg-(--grey-200) active:bg-foreground"
-		},
-		{
-			variant: "default",
-			color: "error",
-			class: "bg-(--danger-700) text-foreground hover:bg-(--danger-800) active:bg-(--danger-900)"
-		},
-		{
-			variant: "destructive",
-			class: "bg-(--danger-700) text-foreground hover:bg-(--danger-800) active:bg-(--danger-900)"
-		},
-		{
-			variant: "outline",
-			color: "purple",
-			class: "border-primary text-(--purple-400)"
-		},
-		{
-			variant: "outline",
-			color: "orange",
-			class: "border-(--orange-600) text-(--orange-600)"
-		},
-		{
-			variant: "outline",
-			color: "blue",
-			class: "border-blue text-(--blue-500)"
-		},
-		{
-			variant: "outline",
-			color: "light",
-			class: "border-foreground text-foreground"
-		},
-		{
-			variant: "outline",
-			color: "error",
-			class: "border-destructive text-destructive"
-		}
-	],
-	defaultVariants: {
-		variant: "default",
-		color: "purple",
-		size: "default",
-		rounded: false
-	}
-});
-function Button($$renderer, $$props) {
+// src/lib/components/ui/alert/alert-description.svelte
+function Alert_description($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
-		let { class: className, variant = "default", color = "purple", size = "default", rounded = false, ref = null, href = void 0, type = "button", disabled, children, $$slots, $$events, ...restProps } = $$props;
-		if (href) {
-			$$renderer.push(`<!--[0--><a${attributes({
-				"data-slot": "button",
-				class: clsx$1(cn(buttonVariants({
-					variant,
-					color,
-					size,
-					rounded
-				}), className)),
-				href: disabled ? void 0 : href,
-				"aria-disabled": disabled,
-				role: disabled ? "link" : void 0,
-				tabindex: disabled ? -1 : void 0,
-				...restProps
-			})}>`);
-			children?.($$renderer);
-			$$renderer.push(`<!----></a>`);
+		let { ref = null, class: className, children, $$slots, $$events, ...restProps } = $$props;
+		$$renderer.push(`<div${attributes({
+			"data-slot": "alert-description",
+			class: clsx$1(cn("text-base leading-6 text-balance md:text-pretty [&_p:not(:last-child)]:mb-4 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground", className)),
+			...restProps
+		})}>`);
+		children?.($$renderer);
+		$$renderer.push(`<!----></div>`);
+		bind_props($$props, { ref });
+	});
+}
+// src/lib/components/ui/alert/alert.svelte
+var alertVariants = tv({
+	base: "grid gap-0.5 px-4 py-4 pl-10 text-left text-base leading-6 has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-4 *:[svg]:row-span-2 *:[svg]:text-current *:[svg:not([class*='size-'])]:size-8 group/alert relative w-full items-center",
+	variants: { variant: {
+		default: "bg-info-muted text-(--info-100) *:[svg]:text-info",
+		info: "bg-info-muted text-(--info-100) *:[svg]:text-info",
+		success: "bg-success-muted text-(--success-100) *:[svg]:text-success",
+		destructive: "bg-danger-muted text-(--danger-100) *:[svg]:text-(--danger-300)",
+		warning: "bg-warning-muted text-(--warning-100) *:[svg]:text-warning"
+	} },
+	defaultVariants: { variant: "default" }
+});
+function Alert($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, class: className, variant = "default", children, $$slots, $$events, ...restProps } = $$props;
+		$$renderer.push(`<div${attributes({
+			"data-slot": "alert",
+			role: "alert",
+			class: clsx$1(cn(alertVariants({ variant }), className)),
+			...restProps
+		})}>`);
+		children?.($$renderer);
+		$$renderer.push(`<!----></div>`);
+		bind_props($$props, { ref });
+	});
+}
+// node_modules/@lucide/svelte/dist/icons/target.svelte
+var __iconData$4 = {
+	"name": "target",
+	"size": 24,
+	"node": [
+		["circle", {
+			"cx": "12",
+			"cy": "12",
+			"r": "10"
+		}],
+		["circle", {
+			"cx": "12",
+			"cy": "12",
+			"r": "6"
+		}],
+		["circle", {
+			"cx": "12",
+			"cy": "12",
+			"r": "2"
+		}]
+	]
+};
+__iconData$4.node;
+function Target($$renderer, $$props) {
+	let { $$slots, $$events, ...props } = $$props;
+	Icon$1($$renderer, spread_props([props, { icon: __iconData$4 }]));
+}
+// node_modules/@lucide/svelte/dist/icons/lightbulb.svelte
+var __iconData$3 = {
+	"name": "lightbulb",
+	"size": 24,
+	"node": [
+		["path", { "d": "M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" }],
+		["path", { "d": "M9 18h6" }],
+		["path", { "d": "M10 22h4" }]
+	]
+};
+__iconData$3.node;
+function Lightbulb($$renderer, $$props) {
+	let { $$slots, $$events, ...props } = $$props;
+	Icon$1($$renderer, spread_props([props, { icon: __iconData$3 }]));
+}
+// src/lib/components/ui/icon/icon.svelte
+var materialIcons = {
+	info: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z",
+	"check-circle": "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z",
+	warning: "M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z",
+	close: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z",
+	home: "M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z",
+	"arrow-down": "M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z",
+	calendar: "M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z",
+	"chevron-left": "M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z",
+	"chevron-right": "M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z",
+	"chevrons-left": "M17.59 18L19 16.59 14.42 12 19 7.41 17.59 6l-6 6zM11.59 18L13 16.59 8.42 12 13 7.41 11.59 6l-6 6z",
+	"chevrons-right": "M6.41 6L5 7.41 9.58 12 5 16.59 6.41 18l6-6zM12.41 6L11 7.41 15.58 12 11 16.59 12.41 18l6-6z"
+};
+function Icon($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { name, class: className } = $$props;
+		const d = derived(() => materialIcons[name]);
+		if (d()) $$renderer.push(`<!--[0--><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"${attr_class(clsx$1(cn("size-6 shrink-0", className)))}><path${attr("d", d())}></path></svg>`);
+		else if (name === "dangerous") {
+			$$renderer.push("<!--[1-->");
+			Octagon_x($$renderer, {
+				"aria-hidden": "true",
+				class: cn("size-6 shrink-0", className)
+			});
+		} else if (name === "target") {
+			$$renderer.push("<!--[2-->");
+			Target($$renderer, {
+				"aria-hidden": "true",
+				class: cn("size-6 shrink-0", className)
+			});
 		} else {
-			$$renderer.push(`<!--[-1--><button${attributes({
-				"data-slot": "button",
-				class: clsx$1(cn(buttonVariants({
-					variant,
-					color,
-					size,
-					rounded
-				}), className)),
-				type,
-				disabled,
-				...restProps
-			})}>`);
-			children?.($$renderer);
-			$$renderer.push(`<!----></button>`);
+			$$renderer.push("<!--[-1-->");
+			Lightbulb($$renderer, {
+				"aria-hidden": "true",
+				class: cn("size-6 shrink-0", className)
+			});
 		}
 		$$renderer.push(`<!--]-->`);
-		bind_props($$props, { ref });
-	});
-}
-// src/lib/components/ui/badge/badge.svelte
-var badgeVariants = tv({
-	base: "gap-2 px-3 py-1.5 text-xs leading-4 font-medium transition-colors [&>svg]:size-3! group/badge inline-flex w-fit shrink-0 items-center justify-center overflow-hidden whitespace-nowrap focus-visible:ring-[3px] focus-visible:ring-ring/50 [&>svg]:pointer-events-none",
-	variants: {
-		variant: {
-			light: "",
-			dark: ""
-		},
-		color: {
-			purple: "",
-			orange: "",
-			blue: "",
-			light: ""
-		},
-		rounded: {
-			false: "rounded-sm",
-			true: "rounded-2xl"
-		}
-	},
-	compoundVariants: [
-		{
-			variant: "light",
-			color: "purple",
-			class: "bg-(--purple-300) text-(--purple-950)"
-		},
-		{
-			variant: "dark",
-			color: "purple",
-			class: "bg-(--purple-900) text-(--purple-200)"
-		},
-		{
-			variant: "light",
-			color: "orange",
-			class: "bg-(--orange-300) text-(--orange-950)"
-		},
-		{
-			variant: "dark",
-			color: "orange",
-			class: "bg-(--orange-900) text-(--orange-200)"
-		},
-		{
-			variant: "light",
-			color: "blue",
-			class: "bg-(--blue-300) text-(--blue-950)"
-		},
-		{
-			variant: "dark",
-			color: "blue",
-			class: "bg-(--blue-900) text-(--blue-200)"
-		},
-		{
-			variant: "light",
-			color: "light",
-			class: "bg-foreground text-background"
-		},
-		{
-			variant: "dark",
-			color: "light",
-			class: "border border-foreground text-foreground"
-		}
-	],
-	defaultVariants: {
-		variant: "light",
-		color: "purple",
-		rounded: false
-	}
-});
-function Badge($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, href, class: className, variant = "light", color = "purple", rounded = false, indicator = false, children, $$slots, $$events, ...restProps } = $$props;
-		element($$renderer, href ? "a" : "span", () => {
-			$$renderer.push(`${attributes({
-				"data-slot": "badge",
-				href,
-				class: clsx$1(cn(badgeVariants({
-					variant,
-					color,
-					rounded
-				}), className)),
-				...restProps
-			})}`);
-		}, () => {
-			if (indicator) $$renderer.push(`<!--[0--><span class="size-[9px] shrink-0 rounded-full bg-blue" aria-hidden="true"></span>`);
-			else $$renderer.push("<!--[-1-->");
-			$$renderer.push(`<!--]--> `);
-			children?.($$renderer);
-			$$renderer.push(`<!---->`);
-		});
-		bind_props($$props, { ref });
-	});
-}
-// src/lib/components/ui/input/input.svelte
-function Input($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, value = void 0, type, files = void 0, class: className, "data-slot": dataSlot = "input", $$slots, $$events, ...restProps } = $$props;
-		if (type === "file") $$renderer.push(`<!--[0--><input${attributes({
-			"data-slot": dataSlot,
-			class: clsx$1(cn("bg-transparent border-input hover:bg-card focus-visible:bg-card focus-visible:border-(--purple-400) aria-invalid:border-destructive h-[38px] rounded-md border px-2 py-2 text-sm leading-5 transition-colors file:h-7 file:text-sm file:font-medium w-full min-w-0 outline-none file:inline-flex file:border-0 file:bg-transparent file:text-foreground placeholder:text-secondary-foreground/80 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50", className)),
-			type: "file",
-			...restProps
-		}, void 0, void 0, void 0, 4)}/>`);
-		else $$renderer.push(`<!--[-1--><input${attributes({
-			"data-slot": dataSlot,
-			class: clsx$1(cn("bg-transparent border-input hover:bg-card focus-visible:bg-card focus-visible:border-(--purple-400) aria-invalid:border-destructive h-[38px] rounded-md border px-2 py-2 text-sm leading-5 transition-colors file:h-7 file:text-sm file:font-medium w-full min-w-0 outline-none file:inline-flex file:border-0 file:bg-transparent file:text-foreground placeholder:text-secondary-foreground/80 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50", className)),
-			type,
-			value,
-			...restProps
-		}, void 0, void 0, void 0, 4)}/>`);
-		$$renderer.push(`<!--]-->`);
-		bind_props($$props, {
-			ref,
-			value,
-			files
-		});
 	});
 }
 // node_modules/svelte-toolbelt/dist/utils/is.js
@@ -10602,61 +10476,29 @@ function Tooltip_provider($$renderer, $$props) {
 		$$renderer.push(`<!---->`);
 	});
 }
-// src/lib/components/ui/label/label.svelte
-function Label($$renderer, $$props) {
+// src/lib/components/ui/avatar/avatar.svelte
+var avatarVariants = tv({
+	base: "bg-card text-foreground relative inline-flex shrink-0 select-none items-center justify-center overflow-hidden rounded-full font-bold",
+	variants: { size: {
+		sm: "size-8 text-xs leading-4",
+		default: "size-10 text-sm leading-5",
+		lg: "size-14 text-base leading-6"
+	} },
+	defaultVariants: { size: "default" }
+});
+function Avatar($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, $$slots, $$events, ...restProps } = $$props;
+		let { ref = null, src, alt = "", fallback = "", size = "default", class: className, $$slots, $$events, ...restProps } = $$props;
 		let $$settled = true;
 		let $$inner_renderer;
 		function $$render_inner($$renderer) {
-			if (Label$1) {
+			if (Avatar$1) {
 				$$renderer.push("<!--[-->");
-				Label$1($$renderer, spread_props([
+				Avatar$1($$renderer, spread_props([
 					{
-						"data-slot": "label",
-						class: cn("gap-2 text-sm leading-5 font-normal text-(--grey-300) group-data-[disabled=true]:opacity-50 peer-disabled:opacity-50 flex items-center select-none group-data-[disabled=true]:pointer-events-none peer-disabled:cursor-not-allowed", className)
-					},
-					restProps,
-					{
-						get ref() {
-							return ref;
-						},
-						set ref($$value) {
-							ref = $$value;
-							$$settled = false;
-						}
-					}
-				]));
-				$$renderer.push("<!--]-->");
-			} else {
-				$$renderer.push("<!--[!-->");
-				$$renderer.push("<!--]-->");
-			}
-		}
-		do {
-			$$settled = true;
-			$$inner_renderer = $$renderer.copy();
-			$$render_inner($$inner_renderer);
-		} while (!$$settled);
-		$$renderer.subsume($$inner_renderer);
-		bind_props($$props, { ref });
-	});
-}
-// src/lib/components/ui/progress/progress.svelte
-function Progress($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, max = 100, value, $$slots, $$events, ...restProps } = $$props;
-		let $$settled = true;
-		let $$inner_renderer;
-		function $$render_inner($$renderer) {
-			if (Progress$1) {
-				$$renderer.push("<!--[-->");
-				Progress$1($$renderer, spread_props([
-					{
-						"data-slot": "progress",
-						class: cn("bg-card h-4 rounded-full relative flex w-full items-center overflow-x-hidden", className),
-						value,
-						max
+						"data-slot": "avatar",
+						"data-size": size,
+						class: cn(avatarVariants({ size }), className)
 					},
 					restProps,
 					{
@@ -10668,7 +10510,35 @@ function Progress($$renderer, $$props) {
 							$$settled = false;
 						},
 						children: ($$renderer) => {
-							$$renderer.push(`<div data-slot="progress-indicator"${attr_class(clsx$1(cn("bg-(--purple-400) size-full flex-1 rounded-full transition-all", (value ?? 0) >= (max ?? 100) && "bg-success")))}${attr_style(`transform: translateX(-${stringify(100 - 100 * (value ?? 0) / (max ?? 1))}%)`)}></div>`);
+							if (Avatar_image) {
+								$$renderer.push("<!--[-->");
+								Avatar_image($$renderer, {
+									src,
+									alt,
+									"data-slot": "avatar-image",
+									class: "aspect-square size-full object-cover"
+								});
+								$$renderer.push("<!--]-->");
+							} else {
+								$$renderer.push("<!--[!-->");
+								$$renderer.push("<!--]-->");
+							}
+							$$renderer.push(` `);
+							if (Avatar_fallback) {
+								$$renderer.push("<!--[-->");
+								Avatar_fallback($$renderer, {
+									"data-slot": "avatar-fallback",
+									class: "flex size-full items-center justify-center",
+									children: ($$renderer) => {
+										$$renderer.push(`<!---->${escape_html(fallback)}`);
+									},
+									$$slots: { default: true }
+								});
+								$$renderer.push("<!--]-->");
+							} else {
+								$$renderer.push("<!--[!-->");
+								$$renderer.push("<!--]-->");
+							}
 						},
 						$$slots: { default: true }
 					}
@@ -10688,55 +10558,227 @@ function Progress($$renderer, $$props) {
 		bind_props($$props, { ref });
 	});
 }
-// src/lib/components/ui/skeleton/skeleton.svelte
-function Skeleton($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, $$slots, $$events, ...restProps } = $$props;
-		$$renderer.push(`<div${attributes({
-			"data-slot": "skeleton",
-			class: clsx$1(cn("bg-card rounded-md animate-pulse", className)),
-			...restProps
-		})}></div>`);
-		bind_props($$props, { ref });
-	});
-}
-// src/lib/components/ui/alert/alert-description.svelte
-function Alert_description($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, children, $$slots, $$events, ...restProps } = $$props;
-		$$renderer.push(`<div${attributes({
-			"data-slot": "alert-description",
-			class: clsx$1(cn("text-base leading-6 text-balance md:text-pretty [&_p:not(:last-child)]:mb-4 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground", className)),
-			...restProps
-		})}>`);
-		children?.($$renderer);
-		$$renderer.push(`<!----></div>`);
-		bind_props($$props, { ref });
-	});
-}
-// src/lib/components/ui/alert/alert.svelte
-var alertVariants = tv({
-	base: "grid gap-0.5 px-4 py-4 pl-10 text-left text-base leading-6 has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-4 *:[svg]:row-span-2 *:[svg]:text-current *:[svg:not([class*='size-'])]:size-8 group/alert relative w-full items-center",
-	variants: { variant: {
-		default: "bg-info-muted text-(--info-100) *:[svg]:text-info",
-		info: "bg-info-muted text-(--info-100) *:[svg]:text-info",
-		success: "bg-success-muted text-(--success-100) *:[svg]:text-success",
-		destructive: "bg-danger-muted text-(--danger-100) *:[svg]:text-(--danger-300)",
-		warning: "bg-warning-muted text-(--warning-100) *:[svg]:text-warning"
-	} },
-	defaultVariants: { variant: "default" }
+// src/lib/components/ui/badge/badge.svelte
+var badgeVariants = tv({
+	base: "gap-2 px-3 py-1.5 text-xs leading-4 font-medium transition-colors [&>svg]:size-3! group/badge inline-flex w-fit shrink-0 items-center justify-center overflow-hidden whitespace-nowrap focus-visible:ring-[3px] focus-visible:ring-ring/50 [&>svg]:pointer-events-none",
+	variants: {
+		variant: {
+			light: "",
+			dark: ""
+		},
+		color: {
+			purple: "",
+			orange: "",
+			blue: "",
+			light: ""
+		},
+		rounded: {
+			false: "rounded-sm",
+			true: "rounded-2xl"
+		}
+	},
+	compoundVariants: [
+		{
+			variant: "light",
+			color: "purple",
+			class: "bg-(--purple-300) text-(--purple-950)"
+		},
+		{
+			variant: "dark",
+			color: "purple",
+			class: "bg-(--purple-900) text-(--purple-200)"
+		},
+		{
+			variant: "light",
+			color: "orange",
+			class: "bg-(--orange-300) text-(--orange-950)"
+		},
+		{
+			variant: "dark",
+			color: "orange",
+			class: "bg-(--orange-900) text-(--orange-200)"
+		},
+		{
+			variant: "light",
+			color: "blue",
+			class: "bg-(--blue-300) text-(--blue-950)"
+		},
+		{
+			variant: "dark",
+			color: "blue",
+			class: "bg-(--blue-900) text-(--blue-200)"
+		},
+		{
+			variant: "light",
+			color: "light",
+			class: "bg-foreground text-background"
+		},
+		{
+			variant: "dark",
+			color: "light",
+			class: "border border-foreground text-foreground"
+		}
+	],
+	defaultVariants: {
+		variant: "light",
+		color: "purple",
+		rounded: false
+	}
 });
-function Alert($$renderer, $$props) {
+function Badge($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, variant = "default", children, $$slots, $$events, ...restProps } = $$props;
-		$$renderer.push(`<div${attributes({
-			"data-slot": "alert",
-			role: "alert",
-			class: clsx$1(cn(alertVariants({ variant }), className)),
-			...restProps
-		})}>`);
-		children?.($$renderer);
-		$$renderer.push(`<!----></div>`);
+		let { ref = null, href, class: className, variant = "light", color = "purple", rounded = false, indicator = false, children, $$slots, $$events, ...restProps } = $$props;
+		element($$renderer, href ? "a" : "span", () => {
+			$$renderer.push(`${attributes({
+				"data-slot": "badge",
+				href,
+				class: clsx$1(cn(badgeVariants({
+					variant,
+					color,
+					rounded
+				}), className)),
+				...restProps
+			})}`);
+		}, () => {
+			if (indicator) $$renderer.push(`<!--[0--><span class="size-[9px] shrink-0 rounded-full bg-blue" aria-hidden="true"></span>`);
+			else $$renderer.push("<!--[-1-->");
+			$$renderer.push(`<!--]--> `);
+			children?.($$renderer);
+			$$renderer.push(`<!---->`);
+		});
+		bind_props($$props, { ref });
+	});
+}
+// src/lib/components/ui/button/button.svelte
+var buttonVariants = tv({
+	base: "focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive font-normal focus-visible:ring-3 aria-invalid:ring-3 [&_svg:not([class*='size-'])]:size-4 group/button inline-flex shrink-0 items-center justify-center whitespace-nowrap transition-colors outline-none select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+	variants: {
+		variant: {
+			default: "",
+			outline: "border bg-transparent hover:bg-current/10 active:bg-current/20",
+			secondary: "bg-secondary text-secondary-foreground hover:bg-(--grey-500)",
+			ghost: "hover:bg-(--grey-700) hover:text-foreground active:bg-(--grey-600)",
+			destructive: "",
+			link: "text-primary underline-offset-4 hover:underline"
+		},
+		color: {
+			purple: "",
+			orange: "",
+			blue: "",
+			light: "",
+			error: ""
+		},
+		size: {
+			default: "gap-2.5 px-4 py-3 text-sm leading-5",
+			lg: "gap-2.5 px-6 py-3.5 text-base",
+			icon: "size-11",
+			"icon-lg": "size-12"
+		},
+		rounded: {
+			false: "rounded-md",
+			true: "rounded-full"
+		}
+	},
+	compoundVariants: [
+		{
+			variant: "default",
+			color: "purple",
+			class: "bg-primary text-foreground hover:bg-primary-hover active:bg-primary-active"
+		},
+		{
+			variant: "default",
+			color: "orange",
+			class: "bg-orange text-white hover:bg-orange-hover active:bg-orange-active"
+		},
+		{
+			variant: "default",
+			color: "blue",
+			class: "bg-blue text-foreground hover:bg-blue-hover active:bg-blue-active"
+		},
+		{
+			variant: "default",
+			color: "light",
+			class: "bg-foreground text-background hover:bg-(--grey-200) active:bg-foreground"
+		},
+		{
+			variant: "default",
+			color: "error",
+			class: "bg-(--danger-700) text-foreground hover:bg-(--danger-800) active:bg-(--danger-900)"
+		},
+		{
+			variant: "destructive",
+			class: "bg-(--danger-700) text-foreground hover:bg-(--danger-800) active:bg-(--danger-900)"
+		},
+		{
+			variant: "outline",
+			color: "purple",
+			class: "border-primary text-(--purple-400)"
+		},
+		{
+			variant: "outline",
+			color: "orange",
+			class: "border-(--orange-600) text-(--orange-600)"
+		},
+		{
+			variant: "outline",
+			color: "blue",
+			class: "border-blue text-(--blue-500)"
+		},
+		{
+			variant: "outline",
+			color: "light",
+			class: "border-foreground text-foreground"
+		},
+		{
+			variant: "outline",
+			color: "error",
+			class: "border-destructive text-destructive"
+		}
+	],
+	defaultVariants: {
+		variant: "default",
+		color: "purple",
+		size: "default",
+		rounded: false
+	}
+});
+function Button($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { class: className, variant = "default", color = "purple", size = "default", rounded = false, ref = null, href = void 0, type = "button", disabled, children, $$slots, $$events, ...restProps } = $$props;
+		if (href) {
+			$$renderer.push(`<!--[0--><a${attributes({
+				"data-slot": "button",
+				class: clsx$1(cn(buttonVariants({
+					variant,
+					color,
+					size,
+					rounded
+				}), className)),
+				href: disabled ? void 0 : href,
+				"aria-disabled": disabled,
+				role: disabled ? "link" : void 0,
+				tabindex: disabled ? -1 : void 0,
+				...restProps
+			})}>`);
+			children?.($$renderer);
+			$$renderer.push(`<!----></a>`);
+		} else {
+			$$renderer.push(`<!--[-1--><button${attributes({
+				"data-slot": "button",
+				class: clsx$1(cn(buttonVariants({
+					variant,
+					color,
+					size,
+					rounded
+				}), className)),
+				type,
+				disabled,
+				...restProps
+			})}>`);
+			children?.($$renderer);
+			$$renderer.push(`<!----></button>`);
+		}
+		$$renderer.push(`<!--]-->`);
 		bind_props($$props, { ref });
 	});
 }
@@ -10839,242 +10881,26 @@ function Card($$renderer, $$props) {
 		bind_props($$props, { ref });
 	});
 }
-// src/lib/components/ui/select/select-portal.svelte
-function Select_portal($$renderer, $$props) {
-	let { $$slots, $$events, ...restProps } = $$props;
-	if (Portal) {
-		$$renderer.push("<!--[-->");
-		Portal($$renderer, spread_props([restProps]));
-		$$renderer.push("<!--]-->");
-	} else {
-		$$renderer.push("<!--[!-->");
-		$$renderer.push("<!--]-->");
-	}
-}
-// node_modules/@lucide/svelte/dist/icons/chevron-down.svelte
-var __iconData$4 = {
-	"name": "chevron-down",
-	"size": 24,
-	"node": [["path", { "d": "m6 9 6 6 6-6" }]]
-};
-__iconData$4.node;
-function Chevron_down($$renderer, $$props) {
-	let { $$slots, $$events, ...props } = $$props;
-	Icon$1($$renderer, spread_props([props, { icon: __iconData$4 }]));
-}
-// src/lib/components/ui/select/select-scroll-down-button.svelte
-function Select_scroll_down_button($$renderer, $$props) {
+// src/lib/components/ui/checkbox/checkbox.svelte
+function Checkbox($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, $$slots, $$events, ...restProps } = $$props;
-		let $$settled = true;
-		let $$inner_renderer;
-		function $$render_inner($$renderer) {
-			if (Select_scroll_down_button$1) {
-				$$renderer.push("<!--[-->");
-				Select_scroll_down_button$1($$renderer, spread_props([
-					{
-						"data-slot": "select-scroll-down-button",
-						class: cn("bg-popover z-10 flex cursor-default items-center justify-center py-1 [&_svg:not([class*='size-'])]:size-4", className)
-					},
-					restProps,
-					{
-						get ref() {
-							return ref;
-						},
-						set ref($$value) {
-							ref = $$value;
-							$$settled = false;
-						},
-						children: ($$renderer) => {
-							Chevron_down($$renderer, {});
-						},
-						$$slots: { default: true }
-					}
-				]));
-				$$renderer.push("<!--]-->");
-			} else {
-				$$renderer.push("<!--[!-->");
-				$$renderer.push("<!--]-->");
-			}
-		}
-		do {
-			$$settled = true;
-			$$inner_renderer = $$renderer.copy();
-			$$render_inner($$inner_renderer);
-		} while (!$$settled);
-		$$renderer.subsume($$inner_renderer);
-		bind_props($$props, { ref });
-	});
-}
-// node_modules/@lucide/svelte/dist/icons/chevron-up.svelte
-var __iconData$3 = {
-	"name": "chevron-up",
-	"size": 24,
-	"node": [["path", { "d": "m18 15-6-6-6 6" }]]
-};
-__iconData$3.node;
-function Chevron_up($$renderer, $$props) {
-	let { $$slots, $$events, ...props } = $$props;
-	Icon$1($$renderer, spread_props([props, { icon: __iconData$3 }]));
-}
-// src/lib/components/ui/select/select-scroll-up-button.svelte
-function Select_scroll_up_button($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, $$slots, $$events, ...restProps } = $$props;
-		let $$settled = true;
-		let $$inner_renderer;
-		function $$render_inner($$renderer) {
-			if (Select_scroll_up_button$1) {
-				$$renderer.push("<!--[-->");
-				Select_scroll_up_button$1($$renderer, spread_props([
-					{
-						"data-slot": "select-scroll-up-button",
-						class: cn("bg-popover z-10 flex cursor-default items-center justify-center py-1 [&_svg:not([class*='size-'])]:size-4", className)
-					},
-					restProps,
-					{
-						get ref() {
-							return ref;
-						},
-						set ref($$value) {
-							ref = $$value;
-							$$settled = false;
-						},
-						children: ($$renderer) => {
-							Chevron_up($$renderer, {});
-						},
-						$$slots: { default: true }
-					}
-				]));
-				$$renderer.push("<!--]-->");
-			} else {
-				$$renderer.push("<!--[!-->");
-				$$renderer.push("<!--]-->");
-			}
-		}
-		do {
-			$$settled = true;
-			$$inner_renderer = $$renderer.copy();
-			$$render_inner($$inner_renderer);
-		} while (!$$settled);
-		$$renderer.subsume($$inner_renderer);
-		bind_props($$props, { ref });
-	});
-}
-// src/lib/components/ui/select/select-content.svelte
-function Select_content($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, sideOffset = 4, portalProps, children, preventScroll = true, $$slots, $$events, ...restProps } = $$props;
-		let $$settled = true;
-		let $$inner_renderer;
-		function $$render_inner($$renderer) {
-			Select_portal($$renderer, spread_props([portalProps, {
-				children: ($$renderer) => {
-					if (Select_content$1) {
-						$$renderer.push("<!--[-->");
-						Select_content$1($$renderer, spread_props([
-							{
-								sideOffset,
-								preventScroll,
-								"data-slot": "select-content",
-								class: cn("bg-card text-foreground data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 min-w-36 rounded-md duration-100 relative z-50 max-h-(--bits-select-content-available-height) origin-(--bits-select-content-transform-origin) overflow-x-hidden overflow-y-auto", className)
-							},
-							restProps,
-							{
-								get ref() {
-									return ref;
-								},
-								set ref($$value) {
-									ref = $$value;
-									$$settled = false;
-								},
-								children: ($$renderer) => {
-									Select_scroll_up_button($$renderer, {});
-									$$renderer.push(`<!----> `);
-									if (Select_viewport) {
-										$$renderer.push("<!--[-->");
-										Select_viewport($$renderer, {
-											class: cn("h-(--bits-select-anchor-height) w-full min-w-(--bits-select-anchor-width) scroll-my-1"),
-											children: ($$renderer) => {
-												children?.($$renderer);
-												$$renderer.push(`<!---->`);
-											},
-											$$slots: { default: true }
-										});
-										$$renderer.push("<!--]-->");
-									} else {
-										$$renderer.push("<!--[!-->");
-										$$renderer.push("<!--]-->");
-									}
-									$$renderer.push(` `);
-									Select_scroll_down_button($$renderer, {});
-									$$renderer.push(`<!---->`);
-								},
-								$$slots: { default: true }
-							}
-						]));
-						$$renderer.push("<!--]-->");
-					} else {
-						$$renderer.push("<!--[!-->");
-						$$renderer.push("<!--]-->");
-					}
-				},
-				$$slots: { default: true }
-			}]));
-		}
-		do {
-			$$settled = true;
-			$$inner_renderer = $$renderer.copy();
-			$$render_inner($$inner_renderer);
-		} while (!$$settled);
-		$$renderer.subsume($$inner_renderer);
-		bind_props($$props, { ref });
-	});
-}
-// node_modules/@lucide/svelte/dist/icons/check.svelte
-var __iconData$2 = {
-	"name": "check",
-	"size": 24,
-	"node": [["path", { "d": "M20 6 9 17l-5-5" }]]
-};
-__iconData$2.node;
-function Check($$renderer, $$props) {
-	let { $$slots, $$events, ...props } = $$props;
-	Icon$1($$renderer, spread_props([props, { icon: __iconData$2 }]));
-}
-// src/lib/components/ui/select/select-item.svelte
-function Select_item($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, value, label, children: childrenProp, $$slots, $$events, ...restProps } = $$props;
+		let { ref = null, checked = false, indeterminate = false, class: className, $$slots, $$events, ...restProps } = $$props;
 		let $$settled = true;
 		let $$inner_renderer;
 		function $$render_inner($$renderer) {
 			{
-				function children($$renderer, { selected, highlighted }) {
-					$$renderer.push(`<span class="pointer-events-none absolute right-2 flex size-4 items-center justify-center">`);
-					if (selected) {
-						$$renderer.push("<!--[0-->");
-						Check($$renderer, { class: "pointer-events-none" });
-					} else $$renderer.push("<!--[-1-->");
-					$$renderer.push(`<!--]--></span> <span class="flex flex-1 gap-2 shrink-0 whitespace-nowrap">`);
-					if (childrenProp) {
-						$$renderer.push("<!--[0-->");
-						childrenProp($$renderer, {
-							selected,
-							highlighted
-						});
-						$$renderer.push(`<!---->`);
-					} else $$renderer.push(`<!--[-1-->${escape_html(label || value)}`);
-					$$renderer.push(`<!--]--></span>`);
+				function children($$renderer, { checked, indeterminate }) {
+					$$renderer.push(`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" data-slot="checkbox-indicator"${attr_class(clsx$1(cn("text-foreground size-4 transition-transform duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] motion-reduce:transition-none", checked || indeterminate ? "scale-100" : "scale-0")))}>`);
+					if (indeterminate) $$renderer.push(`<!--[0--><path d="M19 13H5v-2h14v2z"></path>`);
+					else $$renderer.push(`<!--[-1--><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>`);
+					$$renderer.push(`<!--]--></svg>`);
 				}
-				if (Select_item$1) {
+				if (Checkbox$1) {
 					$$renderer.push("<!--[-->");
-					Select_item$1($$renderer, spread_props([
+					Checkbox$1($$renderer, spread_props([
 						{
-							value,
-							label,
-							"data-slot": "select-item",
-							class: cn("focus:bg-secondary focus:text-foreground gap-2.5 h-10 px-3 text-xs [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2 relative flex w-full cursor-default items-center outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0", "data-highlighted:bg-secondary data-highlighted:text-foreground", className)
+							"data-slot": "checkbox",
+							class: cn("border-(--grey-500) transition-colors duration-150 ease-out motion-reduce:transition-none data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=indeterminate]:border-primary data-[state=indeterminate]:bg-primary hover:border-(--purple-400) data-[state=checked]:hover:border-primary-hover data-[state=checked]:hover:bg-primary-hover data-[state=indeterminate]:hover:border-primary-hover data-[state=indeterminate]:hover:bg-primary-hover after:absolute after:-inset-3 aria-invalid:border-destructive focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--purple-400) peer relative flex size-5 shrink-0 items-center justify-center rounded-md border-2 outline-none disabled:cursor-not-allowed disabled:opacity-50", className)
 						},
 						restProps,
 						{
@@ -11083,6 +10909,20 @@ function Select_item($$renderer, $$props) {
 							},
 							set ref($$value) {
 								ref = $$value;
+								$$settled = false;
+							},
+							get checked() {
+								return checked;
+							},
+							set checked($$value) {
+								checked = $$value;
+								$$settled = false;
+							},
+							get indeterminate() {
+								return indeterminate;
+							},
+							set indeterminate($$value) {
+								indeterminate = $$value;
 								$$settled = false;
 							},
 							children,
@@ -11094,277 +10934,6 @@ function Select_item($$renderer, $$props) {
 					$$renderer.push("<!--[!-->");
 					$$renderer.push("<!--]-->");
 				}
-			}
-		}
-		do {
-			$$settled = true;
-			$$inner_renderer = $$renderer.copy();
-			$$render_inner($$inner_renderer);
-		} while (!$$settled);
-		$$renderer.subsume($$inner_renderer);
-		bind_props($$props, { ref });
-	});
-}
-// node_modules/@lucide/svelte/dist/icons/target.svelte
-var __iconData$1 = {
-	"name": "target",
-	"size": 24,
-	"node": [
-		["circle", {
-			"cx": "12",
-			"cy": "12",
-			"r": "10"
-		}],
-		["circle", {
-			"cx": "12",
-			"cy": "12",
-			"r": "6"
-		}],
-		["circle", {
-			"cx": "12",
-			"cy": "12",
-			"r": "2"
-		}]
-	]
-};
-__iconData$1.node;
-function Target($$renderer, $$props) {
-	let { $$slots, $$events, ...props } = $$props;
-	Icon$1($$renderer, spread_props([props, { icon: __iconData$1 }]));
-}
-// node_modules/@lucide/svelte/dist/icons/lightbulb.svelte
-var __iconData = {
-	"name": "lightbulb",
-	"size": 24,
-	"node": [
-		["path", { "d": "M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" }],
-		["path", { "d": "M9 18h6" }],
-		["path", { "d": "M10 22h4" }]
-	]
-};
-__iconData.node;
-function Lightbulb($$renderer, $$props) {
-	let { $$slots, $$events, ...props } = $$props;
-	Icon$1($$renderer, spread_props([props, { icon: __iconData }]));
-}
-// src/lib/components/ui/icon/icon.svelte
-var materialIcons = {
-	info: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z",
-	"check-circle": "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z",
-	warning: "M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z",
-	close: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z",
-	home: "M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z",
-	"arrow-down": "M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z",
-	calendar: "M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z",
-	"chevron-left": "M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z",
-	"chevron-right": "M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z",
-	"chevrons-left": "M17.59 18L19 16.59 14.42 12 19 7.41 17.59 6l-6 6zM11.59 18L13 16.59 8.42 12 13 7.41 11.59 6l-6 6z",
-	"chevrons-right": "M6.41 6L5 7.41 9.58 12 5 16.59 6.41 18l6-6zM12.41 6L11 7.41 15.58 12 11 16.59 12.41 18l6-6z"
-};
-function Icon($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { name, class: className } = $$props;
-		const d = derived(() => materialIcons[name]);
-		if (d()) $$renderer.push(`<!--[0--><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"${attr_class(clsx$1(cn("size-6 shrink-0", className)))}><path${attr("d", d())}></path></svg>`);
-		else if (name === "dangerous") {
-			$$renderer.push("<!--[1-->");
-			Octagon_x($$renderer, {
-				"aria-hidden": "true",
-				class: cn("size-6 shrink-0", className)
-			});
-		} else if (name === "target") {
-			$$renderer.push("<!--[2-->");
-			Target($$renderer, {
-				"aria-hidden": "true",
-				class: cn("size-6 shrink-0", className)
-			});
-		} else {
-			$$renderer.push("<!--[-1-->");
-			Lightbulb($$renderer, {
-				"aria-hidden": "true",
-				class: cn("size-6 shrink-0", className)
-			});
-		}
-		$$renderer.push(`<!--]-->`);
-	});
-}
-// src/lib/components/ui/select/select-trigger.svelte
-function Select_trigger($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, children, size = "default", $$slots, $$events, ...restProps } = $$props;
-		let $$settled = true;
-		let $$inner_renderer;
-		function $$render_inner($$renderer) {
-			if (Select_trigger$1) {
-				$$renderer.push("<!--[-->");
-				Select_trigger$1($$renderer, spread_props([
-					{
-						"data-slot": "select-trigger",
-						"data-size": size,
-						class: cn("bg-transparent border-input data-placeholder:text-foreground focus-visible:border-(--purple-400) focus-visible:bg-card aria-invalid:border-destructive gap-16 rounded-md border p-1.5 text-sm leading-5 transition-colors data-[size=default]:h-[38px] data-[size=sm]:h-8 *:data-[slot=select-value]:flex *:data-[slot=select-value]:gap-1.5 [&_svg:not([class*='size-'])]:size-5 flex w-fit items-center justify-between whitespace-nowrap outline-none disabled:cursor-not-allowed disabled:opacity-50 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center [&_svg]:pointer-events-none [&_svg]:shrink-0", className)
-					},
-					restProps,
-					{
-						get ref() {
-							return ref;
-						},
-						set ref($$value) {
-							ref = $$value;
-							$$settled = false;
-						},
-						children: ($$renderer) => {
-							children?.($$renderer);
-							$$renderer.push(`<!----> `);
-							Icon($$renderer, {
-								name: "arrow-down",
-								class: "text-foreground size-5 pointer-events-none"
-							});
-							$$renderer.push(`<!---->`);
-						},
-						$$slots: { default: true }
-					}
-				]));
-				$$renderer.push("<!--]-->");
-			} else {
-				$$renderer.push("<!--[!-->");
-				$$renderer.push("<!--]-->");
-			}
-		}
-		do {
-			$$settled = true;
-			$$inner_renderer = $$renderer.copy();
-			$$render_inner($$inner_renderer);
-		} while (!$$settled);
-		$$renderer.subsume($$inner_renderer);
-		bind_props($$props, { ref });
-	});
-}
-// src/lib/components/ui/select/select.svelte
-function Select($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { open = false, value = void 0, $$slots, $$events, ...restProps } = $$props;
-		let $$settled = true;
-		let $$inner_renderer;
-		function $$render_inner($$renderer) {
-			if (Select$1) {
-				$$renderer.push("<!--[-->");
-				Select$1($$renderer, spread_props([restProps, {
-					get open() {
-						return open;
-					},
-					set open($$value) {
-						open = $$value;
-						$$settled = false;
-					},
-					get value() {
-						return value;
-					},
-					set value($$value) {
-						value = $$value;
-						$$settled = false;
-					}
-				}]));
-				$$renderer.push("<!--]-->");
-			} else {
-				$$renderer.push("<!--[!-->");
-				$$renderer.push("<!--]-->");
-			}
-		}
-		do {
-			$$settled = true;
-			$$inner_renderer = $$renderer.copy();
-			$$render_inner($$inner_renderer);
-		} while (!$$settled);
-		$$renderer.subsume($$inner_renderer);
-		bind_props($$props, {
-			open,
-			value
-		});
-	});
-}
-// src/lib/components/ui/radio-group/radio-group-item.svelte
-function Radio_group_item($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, $$slots, $$events, ...restProps } = $$props;
-		let $$settled = true;
-		let $$inner_renderer;
-		function $$render_inner($$renderer) {
-			{
-				function children($$renderer, { checked }) {
-					$$renderer.push(`<div data-slot="radio-group-indicator" class="flex size-full items-center justify-center"><span${attr_class(clsx$1(cn("bg-(--purple-400) size-3 rounded-full transition-transform duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] motion-reduce:transition-none", checked ? "scale-100" : "scale-0")))}></span></div>`);
-				}
-				if (Radio_group_item$1) {
-					$$renderer.push("<!--[-->");
-					Radio_group_item$1($$renderer, spread_props([
-						{
-							"data-slot": "radio-group-item",
-							class: cn("border-(--grey-500) transition-[border-color,border-width] duration-150 ease-out motion-reduce:transition-none data-[state=checked]:border-2 data-[state=checked]:border-(--purple-400) hover:border-(--purple-400) after:absolute after:-inset-3 aria-invalid:border-destructive focus-visible:border-(--purple-400) focus-visible:ring-ring/30 flex size-5 rounded-full border focus-visible:ring-3 group/radio-group-item peer relative aspect-square shrink-0 outline-none disabled:cursor-not-allowed disabled:opacity-50", className)
-						},
-						restProps,
-						{
-							get ref() {
-								return ref;
-							},
-							set ref($$value) {
-								ref = $$value;
-								$$settled = false;
-							},
-							children,
-							$$slots: { default: true }
-						}
-					]));
-					$$renderer.push("<!--]-->");
-				} else {
-					$$renderer.push("<!--[!-->");
-					$$renderer.push("<!--]-->");
-				}
-			}
-		}
-		do {
-			$$settled = true;
-			$$inner_renderer = $$renderer.copy();
-			$$render_inner($$inner_renderer);
-		} while (!$$settled);
-		$$renderer.subsume($$inner_renderer);
-		bind_props($$props, { ref });
-	});
-}
-// src/lib/components/ui/radio-group/radio-group.svelte
-function Radio_group($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, value = "", $$slots, $$events, ...restProps } = $$props;
-		let $$settled = true;
-		let $$inner_renderer;
-		function $$render_inner($$renderer) {
-			if (Radio_group$1) {
-				$$renderer.push("<!--[-->");
-				Radio_group$1($$renderer, spread_props([
-					{
-						"data-slot": "radio-group",
-						class: cn("grid gap-3 w-full", className)
-					},
-					restProps,
-					{
-						get ref() {
-							return ref;
-						},
-						set ref($$value) {
-							ref = $$value;
-							$$settled = false;
-						},
-						get value() {
-							return value;
-						},
-						set value($$value) {
-							value = $$value;
-							$$settled = false;
-						}
-					}
-				]));
-				$$renderer.push("<!--]-->");
-			} else {
-				$$renderer.push("<!--[!-->");
-				$$renderer.push("<!--]-->");
 			}
 		}
 		do {
@@ -11375,23 +10944,24 @@ function Radio_group($$renderer, $$props) {
 		$$renderer.subsume($$inner_renderer);
 		bind_props($$props, {
 			ref,
-			value
+			checked,
+			indeterminate
 		});
 	});
 }
-// src/lib/components/ui/dialog/dialog-close.svelte
-function Dialog_close($$renderer, $$props) {
+// src/lib/components/ui/label/label.svelte
+function Label($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
-		let { ref = null, type = "button", $$slots, $$events, ...restProps } = $$props;
+		let { ref = null, class: className, $$slots, $$events, ...restProps } = $$props;
 		let $$settled = true;
 		let $$inner_renderer;
 		function $$render_inner($$renderer) {
-			if (Dialog_close$1) {
+			if (Label$1) {
 				$$renderer.push("<!--[-->");
-				Dialog_close$1($$renderer, spread_props([
+				Label$1($$renderer, spread_props([
 					{
-						"data-slot": "dialog-close",
-						type
+						"data-slot": "label",
+						class: cn("gap-2 text-sm leading-5 font-normal text-(--grey-300) group-data-[disabled=true]:opacity-50 peer-disabled:opacity-50 flex items-center select-none group-data-[disabled=true]:pointer-events-none peer-disabled:cursor-not-allowed", className)
 					},
 					restProps,
 					{
@@ -11419,8 +10989,33 @@ function Dialog_close($$renderer, $$props) {
 		bind_props($$props, { ref });
 	});
 }
-// src/lib/components/ui/dialog/dialog-portal.svelte
-function Dialog_portal($$renderer, $$props) {
+// src/lib/components/ui/input/input.svelte
+function Input($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, value = void 0, type, files = void 0, class: className, "data-slot": dataSlot = "input", $$slots, $$events, ...restProps } = $$props;
+		if (type === "file") $$renderer.push(`<!--[0--><input${attributes({
+			"data-slot": dataSlot,
+			class: clsx$1(cn("bg-transparent border-input hover:bg-card focus-visible:bg-card focus-visible:border-(--purple-400) aria-invalid:border-destructive h-[38px] rounded-md border px-2 py-2 text-sm leading-5 transition-colors file:h-7 file:text-sm file:font-medium w-full min-w-0 outline-none file:inline-flex file:border-0 file:bg-transparent file:text-foreground placeholder:text-secondary-foreground/80 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50", className)),
+			type: "file",
+			...restProps
+		}, void 0, void 0, void 0, 4)}/>`);
+		else $$renderer.push(`<!--[-1--><input${attributes({
+			"data-slot": dataSlot,
+			class: clsx$1(cn("bg-transparent border-input hover:bg-card focus-visible:bg-card focus-visible:border-(--purple-400) aria-invalid:border-destructive h-[38px] rounded-md border px-2 py-2 text-sm leading-5 transition-colors file:h-7 file:text-sm file:font-medium w-full min-w-0 outline-none file:inline-flex file:border-0 file:bg-transparent file:text-foreground placeholder:text-secondary-foreground/80 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50", className)),
+			type,
+			value,
+			...restProps
+		}, void 0, void 0, void 0, 4)}/>`);
+		$$renderer.push(`<!--]-->`);
+		bind_props($$props, {
+			ref,
+			value,
+			files
+		});
+	});
+}
+// src/lib/components/ui/popover/popover-portal.svelte
+function Popover_portal($$renderer, $$props) {
 	let { $$slots, $$events, ...restProps } = $$props;
 	if (Portal) {
 		$$renderer.push("<!--[-->");
@@ -11431,30 +11026,23 @@ function Dialog_portal($$renderer, $$props) {
 		$$renderer.push("<!--]-->");
 	}
 }
-// src/lib/components/ui/dialog/dialog-content.svelte
-function Dialog_content($$renderer, $$props) {
+// src/lib/components/ui/popover/popover-content.svelte
+function Popover_content($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, portalProps, children, showCloseButton = true, $$slots, $$events, ...restProps } = $$props;
+		let { ref = null, class: className, sideOffset = 4, align = "center", portalProps, $$slots, $$events, ...restProps } = $$props;
 		let $$settled = true;
 		let $$inner_renderer;
 		function $$render_inner($$renderer) {
-			Dialog_portal($$renderer, spread_props([portalProps, {
+			Popover_portal($$renderer, spread_props([portalProps, {
 				children: ($$renderer) => {
-					if (Dialog_overlay) {
+					if (Popover_content$1) {
 						$$renderer.push("<!--[-->");
-						Dialog_overlay($$renderer, {});
-						$$renderer.push("<!--]-->");
-					} else {
-						$$renderer.push("<!--[!-->");
-						$$renderer.push("<!--]-->");
-					}
-					$$renderer.push(` `);
-					if (Dialog_content$1) {
-						$$renderer.push("<!--[-->");
-						Dialog_content$1($$renderer, spread_props([
+						Popover_content$1($$renderer, spread_props([
 							{
-								"data-slot": "dialog-content",
-								class: cn("bg-card text-foreground data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 grid max-w-[calc(100%_-_2rem)] gap-1 rounded-lg p-2 text-sm shadow-xl duration-100 sm:max-w-md fixed top-1/2 left-1/2 z-50 w-full -translate-x-1/2 -translate-y-1/2 outline-none", className)
+								"data-slot": "popover-content",
+								sideOffset,
+								align,
+								class: cn("bg-card text-foreground data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 flex flex-col rounded-lg p-0 text-sm shadow-lg duration-100 z-50 w-72 origin-(--bits-popover-content-transform-origin) outline-hidden", className)
 							},
 							restProps,
 							{
@@ -11464,50 +11052,7 @@ function Dialog_content($$renderer, $$props) {
 								set ref($$value) {
 									ref = $$value;
 									$$settled = false;
-								},
-								children: ($$renderer) => {
-									children?.($$renderer);
-									$$renderer.push(`<!----> `);
-									if (showCloseButton) {
-										$$renderer.push("<!--[0-->");
-										{
-											function child($$renderer, { props }) {
-												Button($$renderer, spread_props([
-													{
-														variant: "ghost",
-														class: "absolute top-1 right-1 text-(--grey-400)",
-														size: "icon"
-													},
-													props,
-													{
-														children: ($$renderer) => {
-															Icon($$renderer, {
-																name: "close",
-																class: "size-5"
-															});
-															$$renderer.push(`<!----> <span class="sr-only">Close</span>`);
-														},
-														$$slots: { default: true }
-													}
-												]));
-											}
-											if (Dialog_close$1) {
-												$$renderer.push("<!--[-->");
-												Dialog_close$1($$renderer, {
-													"data-slot": "dialog-close",
-													child,
-													$$slots: { child: true }
-												});
-												$$renderer.push("<!--]-->");
-											} else {
-												$$renderer.push("<!--[!-->");
-												$$renderer.push("<!--]-->");
-											}
-										}
-									} else $$renderer.push("<!--[-1-->");
-									$$renderer.push(`<!--]-->`);
-								},
-								$$slots: { default: true }
+								}
 							}
 						]));
 						$$renderer.push("<!--]-->");
@@ -11528,19 +11073,19 @@ function Dialog_content($$renderer, $$props) {
 		bind_props($$props, { ref });
 	});
 }
-// src/lib/components/ui/dialog/dialog-description.svelte
-function Dialog_description($$renderer, $$props) {
+// src/lib/components/ui/popover/popover-trigger.svelte
+function Popover_trigger($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
 		let { ref = null, class: className, $$slots, $$events, ...restProps } = $$props;
 		let $$settled = true;
 		let $$inner_renderer;
 		function $$render_inner($$renderer) {
-			if (Dialog_description$1) {
+			if (Popover_trigger$1) {
 				$$renderer.push("<!--[-->");
-				Dialog_description$1($$renderer, spread_props([
+				Popover_trigger$1($$renderer, spread_props([
 					{
-						"data-slot": "dialog-description",
-						class: cn("text-foreground *:[a]:hover:text-foreground text-sm leading-5 *:[a]:underline *:[a]:underline-offset-3", className)
+						"data-slot": "popover-trigger",
+						class: cn(className)
 					},
 					restProps,
 					{
@@ -11568,193 +11113,16 @@ function Dialog_description($$renderer, $$props) {
 		bind_props($$props, { ref });
 	});
 }
-// src/lib/components/ui/dialog/dialog-footer.svelte
-function Dialog_footer($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, children, showCloseButton = false, $$slots, $$events, ...restProps } = $$props;
-		$$renderer.push(`<div${attributes({
-			"data-slot": "dialog-footer",
-			class: clsx$1(cn("gap-2 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", className)),
-			...restProps
-		})}>`);
-		children?.($$renderer);
-		$$renderer.push(`<!----> `);
-		if (showCloseButton) {
-			$$renderer.push("<!--[0-->");
-			{
-				function child($$renderer, { props }) {
-					Button($$renderer, spread_props([
-						{ variant: "outline" },
-						props,
-						{
-							children: ($$renderer) => {
-								$$renderer.push(`<!---->Close`);
-							},
-							$$slots: { default: true }
-						}
-					]));
-				}
-				if (Dialog_close$1) {
-					$$renderer.push("<!--[-->");
-					Dialog_close$1($$renderer, {
-						child,
-						$$slots: { child: true }
-					});
-					$$renderer.push("<!--]-->");
-				} else {
-					$$renderer.push("<!--[!-->");
-					$$renderer.push("<!--]-->");
-				}
-			}
-		} else $$renderer.push("<!--[-1-->");
-		$$renderer.push(`<!--]--></div>`);
-		bind_props($$props, { ref });
-	});
-}
-// src/lib/components/ui/dialog/dialog-header.svelte
-function Dialog_header($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, children, $$slots, $$events, ...restProps } = $$props;
-		$$renderer.push(`<div${attributes({
-			"data-slot": "dialog-header",
-			class: clsx$1(cn("gap-1.5 flex flex-col", className)),
-			...restProps
-		})}>`);
-		children?.($$renderer);
-		$$renderer.push(`<!----></div>`);
-		bind_props($$props, { ref });
-	});
-}
-// src/lib/components/ui/dialog/dialog-overlay.svelte
-function Dialog_overlay($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, $$slots, $$events, ...restProps } = $$props;
-		let $$settled = true;
-		let $$inner_renderer;
-		function $$render_inner($$renderer) {
-			if (Dialog_overlay$1) {
-				$$renderer.push("<!--[-->");
-				Dialog_overlay$1($$renderer, spread_props([
-					{
-						"data-slot": "dialog-overlay",
-						class: cn("data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 bg-(--grey-950)/70 duration-100 fixed inset-0 isolate z-50", className)
-					},
-					restProps,
-					{
-						get ref() {
-							return ref;
-						},
-						set ref($$value) {
-							ref = $$value;
-							$$settled = false;
-						}
-					}
-				]));
-				$$renderer.push("<!--]-->");
-			} else {
-				$$renderer.push("<!--[!-->");
-				$$renderer.push("<!--]-->");
-			}
-		}
-		do {
-			$$settled = true;
-			$$inner_renderer = $$renderer.copy();
-			$$render_inner($$inner_renderer);
-		} while (!$$settled);
-		$$renderer.subsume($$inner_renderer);
-		bind_props($$props, { ref });
-	});
-}
-// src/lib/components/ui/dialog/dialog-title.svelte
-function Dialog_title($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, $$slots, $$events, ...restProps } = $$props;
-		let $$settled = true;
-		let $$inner_renderer;
-		function $$render_inner($$renderer) {
-			if (Dialog_title$1) {
-				$$renderer.push("<!--[-->");
-				Dialog_title$1($$renderer, spread_props([
-					{
-						"data-slot": "dialog-title",
-						class: cn("text-[28px] leading-8 font-bold", className)
-					},
-					restProps,
-					{
-						get ref() {
-							return ref;
-						},
-						set ref($$value) {
-							ref = $$value;
-							$$settled = false;
-						}
-					}
-				]));
-				$$renderer.push("<!--]-->");
-			} else {
-				$$renderer.push("<!--[!-->");
-				$$renderer.push("<!--]-->");
-			}
-		}
-		do {
-			$$settled = true;
-			$$inner_renderer = $$renderer.copy();
-			$$render_inner($$inner_renderer);
-		} while (!$$settled);
-		$$renderer.subsume($$inner_renderer);
-		bind_props($$props, { ref });
-	});
-}
-// src/lib/components/ui/dialog/dialog-trigger.svelte
-function Dialog_trigger($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, type = "button", $$slots, $$events, ...restProps } = $$props;
-		let $$settled = true;
-		let $$inner_renderer;
-		function $$render_inner($$renderer) {
-			if (Dialog_trigger$1) {
-				$$renderer.push("<!--[-->");
-				Dialog_trigger$1($$renderer, spread_props([
-					{
-						"data-slot": "dialog-trigger",
-						type
-					},
-					restProps,
-					{
-						get ref() {
-							return ref;
-						},
-						set ref($$value) {
-							ref = $$value;
-							$$settled = false;
-						}
-					}
-				]));
-				$$renderer.push("<!--]-->");
-			} else {
-				$$renderer.push("<!--[!-->");
-				$$renderer.push("<!--]-->");
-			}
-		}
-		do {
-			$$settled = true;
-			$$inner_renderer = $$renderer.copy();
-			$$render_inner($$inner_renderer);
-		} while (!$$settled);
-		$$renderer.subsume($$inner_renderer);
-		bind_props($$props, { ref });
-	});
-}
-// src/lib/components/ui/dialog/dialog.svelte
-function Dialog($$renderer, $$props) {
+// src/lib/components/ui/popover/popover.svelte
+function Popover($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
 		let { open = false, $$slots, $$events, ...restProps } = $$props;
 		let $$settled = true;
 		let $$inner_renderer;
 		function $$render_inner($$renderer) {
-			if (Dialog$1) {
+			if (Popover$1) {
 				$$renderer.push("<!--[-->");
-				Dialog$1($$renderer, spread_props([restProps, {
+				Popover$1($$renderer, spread_props([restProps, {
 					get open() {
 						return open;
 					},
@@ -11778,70 +11146,16 @@ function Dialog($$renderer, $$props) {
 		bind_props($$props, { open });
 	});
 }
-// src/lib/components/ui/flag/flag.svelte
-var flagVariants = tv({
-	slots: {
-		icon: "size-8 shrink-0",
-		timer: "absolute inset-x-0 bottom-0 h-[3px] origin-left"
-	},
-	variants: { type: {
-		info: {
-			icon: "text-(--info-300)",
-			timer: "bg-(--blue-500)"
-		},
-		success: {
-			icon: "text-(--success-300)",
-			timer: "bg-(--success-300)"
-		},
-		warning: {
-			icon: "text-(--warning-300)",
-			timer: "bg-(--warning-300)"
-		},
-		danger: {
-			icon: "text-(--danger-300)",
-			timer: "bg-(--danger-300)"
-		}
-	} },
-	defaultVariants: { type: "info" }
-});
-function Flag($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { type = "info", message, duration = 5e3, closeToast, class: className } = $$props;
-		const styles = derived(() => flagVariants({ type }));
-		const names = {
-			info: "info",
-			success: "check-circle",
-			warning: "warning",
-			danger: "dangerous"
-		};
-		$$renderer.push(`<div data-slot="flag"${attr("role", type === "danger" || type === "warning" ? "alert" : "status")}${attr_class(clsx$1(cn("bg-card text-foreground relative w-[min(566px,calc(100vw-2rem))] overflow-hidden", className)), "svelte-mhib4c")}><div class="flex items-center gap-2.5 py-4 pr-12 pl-4">`);
-		Icon($$renderer, {
-			name: names[type],
-			class: styles().icon()
-		});
-		$$renderer.push(`<!----> <p class="text-base leading-6">${escape_html(message)}</p></div> `);
-		if (closeToast) {
-			$$renderer.push(`<!--[0--><button type="button" aria-label="Dismiss" class="focus-visible:ring-ring/50 absolute top-0 right-0 flex size-11 items-center justify-center text-(--grey-400) transition-colors outline-none hover:text-foreground focus-visible:ring-3">`);
-			Icon($$renderer, {
-				name: "close",
-				class: "size-5"
-			});
-			$$renderer.push(`<!----></button>`);
-		} else $$renderer.push("<!--[-1-->");
-		$$renderer.push(`<!--]--> <div${attr_class(clsx$1(cn(styles().timer(), "flag-timer")), "svelte-mhib4c")}${attr_style(`--flag-duration: ${stringify(duration)}ms`)} aria-hidden="true"></div></div>`);
-	});
-}
-// src/lib/components/ui/flag/index.ts
-/** Show a Flag toast. Needs <Toaster /> mounted once in the layout. */
-function flag(type, message, duration = 5e3) {
-	return toast.custom(Flag, {
-		duration,
-		componentProps: {
-			type,
-			message,
-			duration
-		}
-	});
+// node_modules/@lucide/svelte/dist/icons/chevron-down.svelte
+var __iconData$2 = {
+	"name": "chevron-down",
+	"size": 24,
+	"node": [["path", { "d": "m6 9 6 6 6-6" }]]
+};
+__iconData$2.node;
+function Chevron_down($$renderer, $$props) {
+	let { $$slots, $$events, ...props } = $$props;
+	Icon$1($$renderer, spread_props([props, { icon: __iconData$2 }]));
 }
 // src/lib/components/ui/calendar/calendar-month-select.svelte
 function Calendar_month_select($$renderer, $$props) {
@@ -12786,222 +12100,6 @@ function Calendar_1($$renderer, $$props) {
 		});
 	});
 }
-// src/lib/components/ui/stepper/stepper.svelte
-function Stepper($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { steps, current = 0, orientation = "vertical", class: className } = $$props;
-		const vertical = derived(() => orientation === "vertical");
-		const status = (i) => i < current ? "completed" : i === current ? "current" : "upcoming";
-		$$renderer.push(`<ol aria-label="Progress"${attr_class(clsx$1(cn("flex", vertical() ? "flex-col" : "items-center", className)))}><!--[-->`);
-		const each_array = ensure_array_like(steps);
-		for (let i = 0, $$length = each_array.length; i < $$length; i++) {
-			let step = each_array[i];
-			const filled = i <= current;
-			$$renderer.push(`<li${attr("aria-current", i === current ? "step" : void 0)}${attr_class(clsx$1(cn(vertical() ? "grid grid-cols-[26px_1fr] gap-x-3" : "flex items-center", !vertical() && i < steps.length - 1 && "flex-1")))}><span${attr_class(clsx$1(cn("grid size-[26px] shrink-0 place-items-center rounded-full border text-xs leading-4", filled ? "border-primary bg-primary text-foreground" : "border-(--purple-400) text-(--purple-400)")))}>${escape_html(i + 1)}<span class="sr-only">(${escape_html(status(i))})</span></span> `);
-			if (step.label) $$renderer.push(`<!--[0--><span${attr_class(clsx$1(cn("text-sm leading-5 text-foreground", vertical() ? "self-center" : "mx-2")))}>${escape_html(step.label)}</span>`);
-			else if (vertical()) $$renderer.push(`<!--[1--><span></span>`);
-			else $$renderer.push("<!--[-1-->");
-			$$renderer.push(`<!--]--> `);
-			if (i < steps.length - 1) $$renderer.push(`<!--[0--><span aria-hidden="true"${attr_class(clsx$1(cn("bg-(--grey-400)", vertical() ? "col-start-1 mx-auto h-[53px] w-px" : "h-px min-w-[53px] flex-1")))}></span>`);
-			else $$renderer.push("<!--[-1-->");
-			$$renderer.push(`<!--]--></li>`);
-		}
-		$$renderer.push(`<!--]--></ol>`);
-	});
-}
-// src/lib/components/ui/menu/menu.svelte
-function Menu($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { header, footer, children, class: className, "aria-label": ariaLabel = "Main" } = $$props;
-		$$renderer.push(`<nav${attr("aria-label", ariaLabel)} data-slot="menu"${attr_class(clsx$1(cn("border-card text-foreground flex w-61 flex-col gap-5 border", className)))}>`);
-		if (header) {
-			$$renderer.push(`<!--[0--><div class="flex items-center gap-1.5 px-2 py-1 text-2xl leading-7 font-bold">`);
-			header($$renderer);
-			$$renderer.push(`<!----></div>`);
-		} else $$renderer.push("<!--[-1-->");
-		$$renderer.push(`<!--]--> <ul class="flex flex-1 flex-col gap-4 px-2">`);
-		children($$renderer);
-		$$renderer.push(`<!----></ul> `);
-		if (footer) {
-			$$renderer.push(`<!--[0--><div class="border-card flex items-center gap-2.5 border p-3">`);
-			footer($$renderer);
-			$$renderer.push(`<!----></div>`);
-		} else $$renderer.push("<!--[-1-->");
-		$$renderer.push(`<!--]--></nav>`);
-	});
-}
-// src/lib/components/ui/menu/menu-item.svelte
-function Menu_item($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { href, active = false, icon, children, class: className, $$slots, $$events, ...restProps } = $$props;
-		$$renderer.push(`<li>`);
-		element($$renderer, href ? "a" : "button", () => {
-			$$renderer.push(`${attributes({
-				href,
-				type: href ? void 0 : "button",
-				"aria-current": active ? "page" : void 0,
-				"data-slot": "menu-item",
-				class: clsx$1(cn("focus-visible:ring-ring/50 flex h-12 w-full items-center gap-4 rounded-md px-1.5 py-3 text-left text-base leading-6 font-medium text-foreground outline-none transition-colors hover:bg-(--grey-800)/50 focus-visible:ring-3 aria-[current=page]:bg-card [&_svg]:size-6 [&_svg]:shrink-0", className)),
-				...restProps
-			})}`);
-		}, () => {
-			icon?.($$renderer);
-			$$renderer.push(`<!----> `);
-			children($$renderer);
-			$$renderer.push(`<!---->`);
-		});
-		$$renderer.push(`</li>`);
-	});
-}
-// src/lib/components/ui/streak-tracker/streak-tracker.svelte
-function Streak_tracker($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { title, subtitle, count, days, columns = 10, class: className } = $$props;
-		const done = derived(() => days.filter(Boolean).length);
-		$$renderer.push(`<section${attr_class(clsx$1(cn("flex w-full max-w-[438px] flex-col gap-4 p-2.5", className)))} data-slot="streak-tracker"><div class="flex flex-col gap-2"><h3 class="text-2xl leading-8 font-bold">${escape_html(title)}</h3> `);
-		if (subtitle || count) $$renderer.push(`<!--[0--><div class="flex items-center justify-between"><p class="text-base leading-6 text-(--grey-300)">${escape_html(subtitle)}</p> <p class="text-[28px] leading-8 font-bold">${escape_html(count)}</p></div>`);
-		else $$renderer.push("<!--[-1-->");
-		$$renderer.push(`<!--]--></div> <div role="img"${attr("aria-label", `${stringify(title)}: ${stringify(done())} of ${stringify(days.length)} days completed`)} class="grid gap-y-3"${attr_style(`grid-template-columns: repeat(${stringify(columns)}, minmax(0, 1fr))`)}><!--[-->`);
-		const each_array = ensure_array_like(days);
-		for (let i = 0, $$length = each_array.length; i < $$length; i++) {
-			let filled = each_array[i];
-			$$renderer.push(`<span${attr_class(clsx$1(cn("size-4 justify-self-center rounded-full", filled ? "bg-(--purple-400)" : "border border-(--grey-500)")))}></span>`);
-		}
-		$$renderer.push(`<!--]--></div></section>`);
-	});
-}
-// src/lib/components/ui/popover/popover-portal.svelte
-function Popover_portal($$renderer, $$props) {
-	let { $$slots, $$events, ...restProps } = $$props;
-	if (Portal) {
-		$$renderer.push("<!--[-->");
-		Portal($$renderer, spread_props([restProps]));
-		$$renderer.push("<!--]-->");
-	} else {
-		$$renderer.push("<!--[!-->");
-		$$renderer.push("<!--]-->");
-	}
-}
-// src/lib/components/ui/popover/popover-content.svelte
-function Popover_content($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, sideOffset = 4, align = "center", portalProps, $$slots, $$events, ...restProps } = $$props;
-		let $$settled = true;
-		let $$inner_renderer;
-		function $$render_inner($$renderer) {
-			Popover_portal($$renderer, spread_props([portalProps, {
-				children: ($$renderer) => {
-					if (Popover_content$1) {
-						$$renderer.push("<!--[-->");
-						Popover_content$1($$renderer, spread_props([
-							{
-								"data-slot": "popover-content",
-								sideOffset,
-								align,
-								class: cn("bg-card text-foreground data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 flex flex-col rounded-lg p-0 text-sm shadow-lg duration-100 z-50 w-72 origin-(--bits-popover-content-transform-origin) outline-hidden", className)
-							},
-							restProps,
-							{
-								get ref() {
-									return ref;
-								},
-								set ref($$value) {
-									ref = $$value;
-									$$settled = false;
-								}
-							}
-						]));
-						$$renderer.push("<!--]-->");
-					} else {
-						$$renderer.push("<!--[!-->");
-						$$renderer.push("<!--]-->");
-					}
-				},
-				$$slots: { default: true }
-			}]));
-		}
-		do {
-			$$settled = true;
-			$$inner_renderer = $$renderer.copy();
-			$$render_inner($$inner_renderer);
-		} while (!$$settled);
-		$$renderer.subsume($$inner_renderer);
-		bind_props($$props, { ref });
-	});
-}
-// src/lib/components/ui/popover/popover-trigger.svelte
-function Popover_trigger($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, class: className, $$slots, $$events, ...restProps } = $$props;
-		let $$settled = true;
-		let $$inner_renderer;
-		function $$render_inner($$renderer) {
-			if (Popover_trigger$1) {
-				$$renderer.push("<!--[-->");
-				Popover_trigger$1($$renderer, spread_props([
-					{
-						"data-slot": "popover-trigger",
-						class: cn(className)
-					},
-					restProps,
-					{
-						get ref() {
-							return ref;
-						},
-						set ref($$value) {
-							ref = $$value;
-							$$settled = false;
-						}
-					}
-				]));
-				$$renderer.push("<!--]-->");
-			} else {
-				$$renderer.push("<!--[!-->");
-				$$renderer.push("<!--]-->");
-			}
-		}
-		do {
-			$$settled = true;
-			$$inner_renderer = $$renderer.copy();
-			$$render_inner($$inner_renderer);
-		} while (!$$settled);
-		$$renderer.subsume($$inner_renderer);
-		bind_props($$props, { ref });
-	});
-}
-// src/lib/components/ui/popover/popover.svelte
-function Popover($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { open = false, $$slots, $$events, ...restProps } = $$props;
-		let $$settled = true;
-		let $$inner_renderer;
-		function $$render_inner($$renderer) {
-			if (Popover$1) {
-				$$renderer.push("<!--[-->");
-				Popover$1($$renderer, spread_props([restProps, {
-					get open() {
-						return open;
-					},
-					set open($$value) {
-						open = $$value;
-						$$settled = false;
-					}
-				}]));
-				$$renderer.push("<!--]-->");
-			} else {
-				$$renderer.push("<!--[!-->");
-				$$renderer.push("<!--]-->");
-			}
-		}
-		do {
-			$$settled = true;
-			$$inner_renderer = $$renderer.copy();
-			$$render_inner($$inner_renderer);
-		} while (!$$settled);
-		$$renderer.subsume($$inner_renderer);
-		bind_props($$props, { open });
-	});
-}
 // src/lib/components/ui/date-picker/date-picker.svelte
 function Date_picker($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
@@ -13178,26 +12276,577 @@ function Date_picker($$renderer, $$props) {
 		bind_props($$props, { value });
 	});
 }
-// src/lib/components/ui/checkbox/checkbox.svelte
-function Checkbox($$renderer, $$props) {
+// src/lib/components/ui/dialog/dialog-close.svelte
+function Dialog_close($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
-		let { ref = null, checked = false, indeterminate = false, class: className, $$slots, $$events, ...restProps } = $$props;
+		let { ref = null, type = "button", $$slots, $$events, ...restProps } = $$props;
+		let $$settled = true;
+		let $$inner_renderer;
+		function $$render_inner($$renderer) {
+			if (Dialog_close$1) {
+				$$renderer.push("<!--[-->");
+				Dialog_close$1($$renderer, spread_props([
+					{
+						"data-slot": "dialog-close",
+						type
+					},
+					restProps,
+					{
+						get ref() {
+							return ref;
+						},
+						set ref($$value) {
+							ref = $$value;
+							$$settled = false;
+						}
+					}
+				]));
+				$$renderer.push("<!--]-->");
+			} else {
+				$$renderer.push("<!--[!-->");
+				$$renderer.push("<!--]-->");
+			}
+		}
+		do {
+			$$settled = true;
+			$$inner_renderer = $$renderer.copy();
+			$$render_inner($$inner_renderer);
+		} while (!$$settled);
+		$$renderer.subsume($$inner_renderer);
+		bind_props($$props, { ref });
+	});
+}
+// src/lib/components/ui/dialog/dialog-portal.svelte
+function Dialog_portal($$renderer, $$props) {
+	let { $$slots, $$events, ...restProps } = $$props;
+	if (Portal) {
+		$$renderer.push("<!--[-->");
+		Portal($$renderer, spread_props([restProps]));
+		$$renderer.push("<!--]-->");
+	} else {
+		$$renderer.push("<!--[!-->");
+		$$renderer.push("<!--]-->");
+	}
+}
+// src/lib/components/ui/dialog/dialog-content.svelte
+function Dialog_content($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, class: className, portalProps, children, showCloseButton = true, $$slots, $$events, ...restProps } = $$props;
+		let $$settled = true;
+		let $$inner_renderer;
+		function $$render_inner($$renderer) {
+			Dialog_portal($$renderer, spread_props([portalProps, {
+				children: ($$renderer) => {
+					if (Dialog_overlay) {
+						$$renderer.push("<!--[-->");
+						Dialog_overlay($$renderer, {});
+						$$renderer.push("<!--]-->");
+					} else {
+						$$renderer.push("<!--[!-->");
+						$$renderer.push("<!--]-->");
+					}
+					$$renderer.push(` `);
+					if (Dialog_content$1) {
+						$$renderer.push("<!--[-->");
+						Dialog_content$1($$renderer, spread_props([
+							{
+								"data-slot": "dialog-content",
+								class: cn("bg-card text-foreground data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 grid max-w-[calc(100%_-_2rem)] gap-1 rounded-lg p-2 text-sm shadow-xl duration-100 sm:max-w-md fixed top-1/2 left-1/2 z-50 w-full -translate-x-1/2 -translate-y-1/2 outline-none", className)
+							},
+							restProps,
+							{
+								get ref() {
+									return ref;
+								},
+								set ref($$value) {
+									ref = $$value;
+									$$settled = false;
+								},
+								children: ($$renderer) => {
+									children?.($$renderer);
+									$$renderer.push(`<!----> `);
+									if (showCloseButton) {
+										$$renderer.push("<!--[0-->");
+										{
+											function child($$renderer, { props }) {
+												Button($$renderer, spread_props([
+													{
+														variant: "ghost",
+														class: "absolute top-1 right-1 text-(--grey-400)",
+														size: "icon"
+													},
+													props,
+													{
+														children: ($$renderer) => {
+															Icon($$renderer, {
+																name: "close",
+																class: "size-5"
+															});
+															$$renderer.push(`<!----> <span class="sr-only">Close</span>`);
+														},
+														$$slots: { default: true }
+													}
+												]));
+											}
+											if (Dialog_close$1) {
+												$$renderer.push("<!--[-->");
+												Dialog_close$1($$renderer, {
+													"data-slot": "dialog-close",
+													child,
+													$$slots: { child: true }
+												});
+												$$renderer.push("<!--]-->");
+											} else {
+												$$renderer.push("<!--[!-->");
+												$$renderer.push("<!--]-->");
+											}
+										}
+									} else $$renderer.push("<!--[-1-->");
+									$$renderer.push(`<!--]-->`);
+								},
+								$$slots: { default: true }
+							}
+						]));
+						$$renderer.push("<!--]-->");
+					} else {
+						$$renderer.push("<!--[!-->");
+						$$renderer.push("<!--]-->");
+					}
+				},
+				$$slots: { default: true }
+			}]));
+		}
+		do {
+			$$settled = true;
+			$$inner_renderer = $$renderer.copy();
+			$$render_inner($$inner_renderer);
+		} while (!$$settled);
+		$$renderer.subsume($$inner_renderer);
+		bind_props($$props, { ref });
+	});
+}
+// src/lib/components/ui/dialog/dialog-description.svelte
+function Dialog_description($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, class: className, $$slots, $$events, ...restProps } = $$props;
+		let $$settled = true;
+		let $$inner_renderer;
+		function $$render_inner($$renderer) {
+			if (Dialog_description$1) {
+				$$renderer.push("<!--[-->");
+				Dialog_description$1($$renderer, spread_props([
+					{
+						"data-slot": "dialog-description",
+						class: cn("text-foreground *:[a]:hover:text-foreground text-sm leading-5 *:[a]:underline *:[a]:underline-offset-3", className)
+					},
+					restProps,
+					{
+						get ref() {
+							return ref;
+						},
+						set ref($$value) {
+							ref = $$value;
+							$$settled = false;
+						}
+					}
+				]));
+				$$renderer.push("<!--]-->");
+			} else {
+				$$renderer.push("<!--[!-->");
+				$$renderer.push("<!--]-->");
+			}
+		}
+		do {
+			$$settled = true;
+			$$inner_renderer = $$renderer.copy();
+			$$render_inner($$inner_renderer);
+		} while (!$$settled);
+		$$renderer.subsume($$inner_renderer);
+		bind_props($$props, { ref });
+	});
+}
+// src/lib/components/ui/dialog/dialog-footer.svelte
+function Dialog_footer($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, class: className, children, showCloseButton = false, $$slots, $$events, ...restProps } = $$props;
+		$$renderer.push(`<div${attributes({
+			"data-slot": "dialog-footer",
+			class: clsx$1(cn("gap-2 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", className)),
+			...restProps
+		})}>`);
+		children?.($$renderer);
+		$$renderer.push(`<!----> `);
+		if (showCloseButton) {
+			$$renderer.push("<!--[0-->");
+			{
+				function child($$renderer, { props }) {
+					Button($$renderer, spread_props([
+						{ variant: "outline" },
+						props,
+						{
+							children: ($$renderer) => {
+								$$renderer.push(`<!---->Close`);
+							},
+							$$slots: { default: true }
+						}
+					]));
+				}
+				if (Dialog_close$1) {
+					$$renderer.push("<!--[-->");
+					Dialog_close$1($$renderer, {
+						child,
+						$$slots: { child: true }
+					});
+					$$renderer.push("<!--]-->");
+				} else {
+					$$renderer.push("<!--[!-->");
+					$$renderer.push("<!--]-->");
+				}
+			}
+		} else $$renderer.push("<!--[-1-->");
+		$$renderer.push(`<!--]--></div>`);
+		bind_props($$props, { ref });
+	});
+}
+// src/lib/components/ui/dialog/dialog-header.svelte
+function Dialog_header($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, class: className, children, $$slots, $$events, ...restProps } = $$props;
+		$$renderer.push(`<div${attributes({
+			"data-slot": "dialog-header",
+			class: clsx$1(cn("gap-1.5 flex flex-col", className)),
+			...restProps
+		})}>`);
+		children?.($$renderer);
+		$$renderer.push(`<!----></div>`);
+		bind_props($$props, { ref });
+	});
+}
+// src/lib/components/ui/dialog/dialog-overlay.svelte
+function Dialog_overlay($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, class: className, $$slots, $$events, ...restProps } = $$props;
+		let $$settled = true;
+		let $$inner_renderer;
+		function $$render_inner($$renderer) {
+			if (Dialog_overlay$1) {
+				$$renderer.push("<!--[-->");
+				Dialog_overlay$1($$renderer, spread_props([
+					{
+						"data-slot": "dialog-overlay",
+						class: cn("data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 bg-(--grey-950)/70 duration-100 fixed inset-0 isolate z-50", className)
+					},
+					restProps,
+					{
+						get ref() {
+							return ref;
+						},
+						set ref($$value) {
+							ref = $$value;
+							$$settled = false;
+						}
+					}
+				]));
+				$$renderer.push("<!--]-->");
+			} else {
+				$$renderer.push("<!--[!-->");
+				$$renderer.push("<!--]-->");
+			}
+		}
+		do {
+			$$settled = true;
+			$$inner_renderer = $$renderer.copy();
+			$$render_inner($$inner_renderer);
+		} while (!$$settled);
+		$$renderer.subsume($$inner_renderer);
+		bind_props($$props, { ref });
+	});
+}
+// src/lib/components/ui/dialog/dialog-title.svelte
+function Dialog_title($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, class: className, $$slots, $$events, ...restProps } = $$props;
+		let $$settled = true;
+		let $$inner_renderer;
+		function $$render_inner($$renderer) {
+			if (Dialog_title$1) {
+				$$renderer.push("<!--[-->");
+				Dialog_title$1($$renderer, spread_props([
+					{
+						"data-slot": "dialog-title",
+						class: cn("text-[28px] leading-8 font-bold", className)
+					},
+					restProps,
+					{
+						get ref() {
+							return ref;
+						},
+						set ref($$value) {
+							ref = $$value;
+							$$settled = false;
+						}
+					}
+				]));
+				$$renderer.push("<!--]-->");
+			} else {
+				$$renderer.push("<!--[!-->");
+				$$renderer.push("<!--]-->");
+			}
+		}
+		do {
+			$$settled = true;
+			$$inner_renderer = $$renderer.copy();
+			$$render_inner($$inner_renderer);
+		} while (!$$settled);
+		$$renderer.subsume($$inner_renderer);
+		bind_props($$props, { ref });
+	});
+}
+// src/lib/components/ui/dialog/dialog-trigger.svelte
+function Dialog_trigger($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, type = "button", $$slots, $$events, ...restProps } = $$props;
+		let $$settled = true;
+		let $$inner_renderer;
+		function $$render_inner($$renderer) {
+			if (Dialog_trigger$1) {
+				$$renderer.push("<!--[-->");
+				Dialog_trigger$1($$renderer, spread_props([
+					{
+						"data-slot": "dialog-trigger",
+						type
+					},
+					restProps,
+					{
+						get ref() {
+							return ref;
+						},
+						set ref($$value) {
+							ref = $$value;
+							$$settled = false;
+						}
+					}
+				]));
+				$$renderer.push("<!--]-->");
+			} else {
+				$$renderer.push("<!--[!-->");
+				$$renderer.push("<!--]-->");
+			}
+		}
+		do {
+			$$settled = true;
+			$$inner_renderer = $$renderer.copy();
+			$$render_inner($$inner_renderer);
+		} while (!$$settled);
+		$$renderer.subsume($$inner_renderer);
+		bind_props($$props, { ref });
+	});
+}
+// src/lib/components/ui/dialog/dialog.svelte
+function Dialog($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { open = false, $$slots, $$events, ...restProps } = $$props;
+		let $$settled = true;
+		let $$inner_renderer;
+		function $$render_inner($$renderer) {
+			if (Dialog$1) {
+				$$renderer.push("<!--[-->");
+				Dialog$1($$renderer, spread_props([restProps, {
+					get open() {
+						return open;
+					},
+					set open($$value) {
+						open = $$value;
+						$$settled = false;
+					}
+				}]));
+				$$renderer.push("<!--]-->");
+			} else {
+				$$renderer.push("<!--[!-->");
+				$$renderer.push("<!--]-->");
+			}
+		}
+		do {
+			$$settled = true;
+			$$inner_renderer = $$renderer.copy();
+			$$render_inner($$inner_renderer);
+		} while (!$$settled);
+		$$renderer.subsume($$inner_renderer);
+		bind_props($$props, { open });
+	});
+}
+// src/lib/components/ui/flag/flag.svelte
+var flagVariants = tv({
+	slots: {
+		icon: "size-8 shrink-0",
+		timer: "absolute inset-x-0 bottom-0 h-[3px] origin-left"
+	},
+	variants: { type: {
+		info: {
+			icon: "text-(--info-300)",
+			timer: "bg-(--blue-500)"
+		},
+		success: {
+			icon: "text-(--success-300)",
+			timer: "bg-(--success-300)"
+		},
+		warning: {
+			icon: "text-(--warning-300)",
+			timer: "bg-(--warning-300)"
+		},
+		danger: {
+			icon: "text-(--danger-300)",
+			timer: "bg-(--danger-300)"
+		}
+	} },
+	defaultVariants: { type: "info" }
+});
+function Flag($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { type = "info", message, duration = 5e3, closeToast, class: className } = $$props;
+		const styles = derived(() => flagVariants({ type }));
+		const names = {
+			info: "info",
+			success: "check-circle",
+			warning: "warning",
+			danger: "dangerous"
+		};
+		$$renderer.push(`<div data-slot="flag"${attr("role", type === "danger" || type === "warning" ? "alert" : "status")}${attr_class(clsx$1(cn("bg-card text-foreground relative w-[min(566px,calc(100vw-2rem))] overflow-hidden", className)), "svelte-mhib4c")}><div class="flex items-center gap-2.5 py-4 pr-12 pl-4">`);
+		Icon($$renderer, {
+			name: names[type],
+			class: styles().icon()
+		});
+		$$renderer.push(`<!----> <p class="text-base leading-6">${escape_html(message)}</p></div> `);
+		if (closeToast) {
+			$$renderer.push(`<!--[0--><button type="button" aria-label="Dismiss" class="focus-visible:ring-ring/50 absolute top-0 right-0 flex size-11 items-center justify-center text-(--grey-400) transition-colors outline-none hover:text-foreground focus-visible:ring-3">`);
+			Icon($$renderer, {
+				name: "close",
+				class: "size-5"
+			});
+			$$renderer.push(`<!----></button>`);
+		} else $$renderer.push("<!--[-1-->");
+		$$renderer.push(`<!--]--> <div${attr_class(clsx$1(cn(styles().timer(), "flag-timer")), "svelte-mhib4c")}${attr_style(`--flag-duration: ${stringify(duration)}ms`)} aria-hidden="true"></div></div>`);
+	});
+}
+// src/lib/components/ui/flag/index.ts
+/** Show a Flag toast. Needs <Toaster /> mounted once in the layout. */
+function flag(type, message, duration = 5e3) {
+	return toast.custom(Flag, {
+		duration,
+		componentProps: {
+			type,
+			message,
+			duration
+		}
+	});
+}
+// src/lib/components/ui/menu/menu.svelte
+function Menu($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { header, footer, children, class: className, "aria-label": ariaLabel = "Main" } = $$props;
+		$$renderer.push(`<nav${attr("aria-label", ariaLabel)} data-slot="menu"${attr_class(clsx$1(cn("border-card text-foreground flex w-61 flex-col gap-5 border", className)))}>`);
+		if (header) {
+			$$renderer.push(`<!--[0--><div class="flex items-center gap-1.5 px-2 py-1 text-2xl leading-7 font-bold">`);
+			header($$renderer);
+			$$renderer.push(`<!----></div>`);
+		} else $$renderer.push("<!--[-1-->");
+		$$renderer.push(`<!--]--> <ul class="flex flex-1 flex-col gap-4 px-2">`);
+		children($$renderer);
+		$$renderer.push(`<!----></ul> `);
+		if (footer) {
+			$$renderer.push(`<!--[0--><div class="border-card flex items-center gap-2.5 border p-3">`);
+			footer($$renderer);
+			$$renderer.push(`<!----></div>`);
+		} else $$renderer.push("<!--[-1-->");
+		$$renderer.push(`<!--]--></nav>`);
+	});
+}
+// src/lib/components/ui/menu/menu-item.svelte
+function Menu_item($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { href, active = false, icon, children, class: className, $$slots, $$events, ...restProps } = $$props;
+		$$renderer.push(`<li>`);
+		element($$renderer, href ? "a" : "button", () => {
+			$$renderer.push(`${attributes({
+				href,
+				type: href ? void 0 : "button",
+				"aria-current": active ? "page" : void 0,
+				"data-slot": "menu-item",
+				class: clsx$1(cn("focus-visible:ring-ring/50 flex h-12 w-full items-center gap-4 rounded-md px-1.5 py-3 text-left text-base leading-6 font-medium text-foreground outline-none transition-colors hover:bg-(--grey-800)/50 focus-visible:ring-3 aria-[current=page]:bg-card [&_svg]:size-6 [&_svg]:shrink-0", className)),
+				...restProps
+			})}`);
+		}, () => {
+			icon?.($$renderer);
+			$$renderer.push(`<!----> `);
+			children($$renderer);
+			$$renderer.push(`<!---->`);
+		});
+		$$renderer.push(`</li>`);
+	});
+}
+// src/lib/components/ui/progress/progress.svelte
+function Progress($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, class: className, max = 100, value, $$slots, $$events, ...restProps } = $$props;
+		let $$settled = true;
+		let $$inner_renderer;
+		function $$render_inner($$renderer) {
+			if (Progress$1) {
+				$$renderer.push("<!--[-->");
+				Progress$1($$renderer, spread_props([
+					{
+						"data-slot": "progress",
+						class: cn("bg-card h-4 rounded-full relative flex w-full items-center overflow-x-hidden", className),
+						value,
+						max
+					},
+					restProps,
+					{
+						get ref() {
+							return ref;
+						},
+						set ref($$value) {
+							ref = $$value;
+							$$settled = false;
+						},
+						children: ($$renderer) => {
+							$$renderer.push(`<div data-slot="progress-indicator"${attr_class(clsx$1(cn("bg-(--purple-400) size-full flex-1 rounded-full transition-all", (value ?? 0) >= (max ?? 100) && "bg-success")))}${attr_style(`transform: translateX(-${stringify(100 - 100 * (value ?? 0) / (max ?? 1))}%)`)}></div>`);
+						},
+						$$slots: { default: true }
+					}
+				]));
+				$$renderer.push("<!--]-->");
+			} else {
+				$$renderer.push("<!--[!-->");
+				$$renderer.push("<!--]-->");
+			}
+		}
+		do {
+			$$settled = true;
+			$$inner_renderer = $$renderer.copy();
+			$$render_inner($$inner_renderer);
+		} while (!$$settled);
+		$$renderer.subsume($$inner_renderer);
+		bind_props($$props, { ref });
+	});
+}
+// src/lib/components/ui/radio-group/radio-group-item.svelte
+function Radio_group_item($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, class: className, $$slots, $$events, ...restProps } = $$props;
 		let $$settled = true;
 		let $$inner_renderer;
 		function $$render_inner($$renderer) {
 			{
-				function children($$renderer, { checked, indeterminate }) {
-					$$renderer.push(`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" data-slot="checkbox-indicator"${attr_class(clsx$1(cn("text-foreground size-4 transition-transform duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] motion-reduce:transition-none", checked || indeterminate ? "scale-100" : "scale-0")))}>`);
-					if (indeterminate) $$renderer.push(`<!--[0--><path d="M19 13H5v-2h14v2z"></path>`);
-					else $$renderer.push(`<!--[-1--><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>`);
-					$$renderer.push(`<!--]--></svg>`);
+				function children($$renderer, { checked }) {
+					$$renderer.push(`<div data-slot="radio-group-indicator" class="flex size-full items-center justify-center"><span${attr_class(clsx$1(cn("bg-(--purple-400) size-3 rounded-full transition-transform duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)] motion-reduce:transition-none", checked ? "scale-100" : "scale-0")))}></span></div>`);
 				}
-				if (Checkbox$1) {
+				if (Radio_group_item$1) {
 					$$renderer.push("<!--[-->");
-					Checkbox$1($$renderer, spread_props([
+					Radio_group_item$1($$renderer, spread_props([
 						{
-							"data-slot": "checkbox",
-							class: cn("border-(--grey-500) transition-colors duration-150 ease-out motion-reduce:transition-none data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=indeterminate]:border-primary data-[state=indeterminate]:bg-primary hover:border-(--purple-400) data-[state=checked]:hover:border-primary-hover data-[state=checked]:hover:bg-primary-hover data-[state=indeterminate]:hover:border-primary-hover data-[state=indeterminate]:hover:bg-primary-hover after:absolute after:-inset-3 aria-invalid:border-destructive focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--purple-400) peer relative flex size-5 shrink-0 items-center justify-center rounded-md border-2 outline-none disabled:cursor-not-allowed disabled:opacity-50", className)
+							"data-slot": "radio-group-item",
+							class: cn("border-(--grey-500) transition-[border-color,border-width] duration-150 ease-out motion-reduce:transition-none data-[state=checked]:border-2 data-[state=checked]:border-(--purple-400) hover:border-(--purple-400) after:absolute after:-inset-3 aria-invalid:border-destructive focus-visible:border-(--purple-400) focus-visible:ring-ring/30 flex size-5 rounded-full border focus-visible:ring-3 group/radio-group-item peer relative aspect-square shrink-0 outline-none disabled:cursor-not-allowed disabled:opacity-50", className)
 						},
 						restProps,
 						{
@@ -13206,20 +12855,6 @@ function Checkbox($$renderer, $$props) {
 							},
 							set ref($$value) {
 								ref = $$value;
-								$$settled = false;
-							},
-							get checked() {
-								return checked;
-							},
-							set checked($$value) {
-								checked = $$value;
-								$$settled = false;
-							},
-							get indeterminate() {
-								return indeterminate;
-							},
-							set indeterminate($$value) {
-								indeterminate = $$value;
 								$$settled = false;
 							},
 							children,
@@ -13239,11 +12874,458 @@ function Checkbox($$renderer, $$props) {
 			$$render_inner($$inner_renderer);
 		} while (!$$settled);
 		$$renderer.subsume($$inner_renderer);
+		bind_props($$props, { ref });
+	});
+}
+// src/lib/components/ui/radio-group/radio-group.svelte
+function Radio_group($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, class: className, value = "", $$slots, $$events, ...restProps } = $$props;
+		let $$settled = true;
+		let $$inner_renderer;
+		function $$render_inner($$renderer) {
+			if (Radio_group$1) {
+				$$renderer.push("<!--[-->");
+				Radio_group$1($$renderer, spread_props([
+					{
+						"data-slot": "radio-group",
+						class: cn("grid gap-3 w-full", className)
+					},
+					restProps,
+					{
+						get ref() {
+							return ref;
+						},
+						set ref($$value) {
+							ref = $$value;
+							$$settled = false;
+						},
+						get value() {
+							return value;
+						},
+						set value($$value) {
+							value = $$value;
+							$$settled = false;
+						}
+					}
+				]));
+				$$renderer.push("<!--]-->");
+			} else {
+				$$renderer.push("<!--[!-->");
+				$$renderer.push("<!--]-->");
+			}
+		}
+		do {
+			$$settled = true;
+			$$inner_renderer = $$renderer.copy();
+			$$render_inner($$inner_renderer);
+		} while (!$$settled);
+		$$renderer.subsume($$inner_renderer);
 		bind_props($$props, {
 			ref,
-			checked,
-			indeterminate
+			value
 		});
+	});
+}
+// src/lib/components/ui/select/select-portal.svelte
+function Select_portal($$renderer, $$props) {
+	let { $$slots, $$events, ...restProps } = $$props;
+	if (Portal) {
+		$$renderer.push("<!--[-->");
+		Portal($$renderer, spread_props([restProps]));
+		$$renderer.push("<!--]-->");
+	} else {
+		$$renderer.push("<!--[!-->");
+		$$renderer.push("<!--]-->");
+	}
+}
+// src/lib/components/ui/select/select-scroll-down-button.svelte
+function Select_scroll_down_button($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, class: className, $$slots, $$events, ...restProps } = $$props;
+		let $$settled = true;
+		let $$inner_renderer;
+		function $$render_inner($$renderer) {
+			if (Select_scroll_down_button$1) {
+				$$renderer.push("<!--[-->");
+				Select_scroll_down_button$1($$renderer, spread_props([
+					{
+						"data-slot": "select-scroll-down-button",
+						class: cn("bg-popover z-10 flex cursor-default items-center justify-center py-1 [&_svg:not([class*='size-'])]:size-4", className)
+					},
+					restProps,
+					{
+						get ref() {
+							return ref;
+						},
+						set ref($$value) {
+							ref = $$value;
+							$$settled = false;
+						},
+						children: ($$renderer) => {
+							Chevron_down($$renderer, {});
+						},
+						$$slots: { default: true }
+					}
+				]));
+				$$renderer.push("<!--]-->");
+			} else {
+				$$renderer.push("<!--[!-->");
+				$$renderer.push("<!--]-->");
+			}
+		}
+		do {
+			$$settled = true;
+			$$inner_renderer = $$renderer.copy();
+			$$render_inner($$inner_renderer);
+		} while (!$$settled);
+		$$renderer.subsume($$inner_renderer);
+		bind_props($$props, { ref });
+	});
+}
+// node_modules/@lucide/svelte/dist/icons/chevron-up.svelte
+var __iconData$1 = {
+	"name": "chevron-up",
+	"size": 24,
+	"node": [["path", { "d": "m18 15-6-6-6 6" }]]
+};
+__iconData$1.node;
+function Chevron_up($$renderer, $$props) {
+	let { $$slots, $$events, ...props } = $$props;
+	Icon$1($$renderer, spread_props([props, { icon: __iconData$1 }]));
+}
+// src/lib/components/ui/select/select-scroll-up-button.svelte
+function Select_scroll_up_button($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, class: className, $$slots, $$events, ...restProps } = $$props;
+		let $$settled = true;
+		let $$inner_renderer;
+		function $$render_inner($$renderer) {
+			if (Select_scroll_up_button$1) {
+				$$renderer.push("<!--[-->");
+				Select_scroll_up_button$1($$renderer, spread_props([
+					{
+						"data-slot": "select-scroll-up-button",
+						class: cn("bg-popover z-10 flex cursor-default items-center justify-center py-1 [&_svg:not([class*='size-'])]:size-4", className)
+					},
+					restProps,
+					{
+						get ref() {
+							return ref;
+						},
+						set ref($$value) {
+							ref = $$value;
+							$$settled = false;
+						},
+						children: ($$renderer) => {
+							Chevron_up($$renderer, {});
+						},
+						$$slots: { default: true }
+					}
+				]));
+				$$renderer.push("<!--]-->");
+			} else {
+				$$renderer.push("<!--[!-->");
+				$$renderer.push("<!--]-->");
+			}
+		}
+		do {
+			$$settled = true;
+			$$inner_renderer = $$renderer.copy();
+			$$render_inner($$inner_renderer);
+		} while (!$$settled);
+		$$renderer.subsume($$inner_renderer);
+		bind_props($$props, { ref });
+	});
+}
+// src/lib/components/ui/select/select-content.svelte
+function Select_content($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, class: className, sideOffset = 4, portalProps, children, preventScroll = true, $$slots, $$events, ...restProps } = $$props;
+		let $$settled = true;
+		let $$inner_renderer;
+		function $$render_inner($$renderer) {
+			Select_portal($$renderer, spread_props([portalProps, {
+				children: ($$renderer) => {
+					if (Select_content$1) {
+						$$renderer.push("<!--[-->");
+						Select_content$1($$renderer, spread_props([
+							{
+								sideOffset,
+								preventScroll,
+								"data-slot": "select-content",
+								class: cn("bg-card text-foreground data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 min-w-36 rounded-md duration-100 relative z-50 max-h-(--bits-select-content-available-height) origin-(--bits-select-content-transform-origin) overflow-x-hidden overflow-y-auto", className)
+							},
+							restProps,
+							{
+								get ref() {
+									return ref;
+								},
+								set ref($$value) {
+									ref = $$value;
+									$$settled = false;
+								},
+								children: ($$renderer) => {
+									Select_scroll_up_button($$renderer, {});
+									$$renderer.push(`<!----> `);
+									if (Select_viewport) {
+										$$renderer.push("<!--[-->");
+										Select_viewport($$renderer, {
+											class: cn("h-(--bits-select-anchor-height) w-full min-w-(--bits-select-anchor-width) scroll-my-1"),
+											children: ($$renderer) => {
+												children?.($$renderer);
+												$$renderer.push(`<!---->`);
+											},
+											$$slots: { default: true }
+										});
+										$$renderer.push("<!--]-->");
+									} else {
+										$$renderer.push("<!--[!-->");
+										$$renderer.push("<!--]-->");
+									}
+									$$renderer.push(` `);
+									Select_scroll_down_button($$renderer, {});
+									$$renderer.push(`<!---->`);
+								},
+								$$slots: { default: true }
+							}
+						]));
+						$$renderer.push("<!--]-->");
+					} else {
+						$$renderer.push("<!--[!-->");
+						$$renderer.push("<!--]-->");
+					}
+				},
+				$$slots: { default: true }
+			}]));
+		}
+		do {
+			$$settled = true;
+			$$inner_renderer = $$renderer.copy();
+			$$render_inner($$inner_renderer);
+		} while (!$$settled);
+		$$renderer.subsume($$inner_renderer);
+		bind_props($$props, { ref });
+	});
+}
+// node_modules/@lucide/svelte/dist/icons/check.svelte
+var __iconData = {
+	"name": "check",
+	"size": 24,
+	"node": [["path", { "d": "M20 6 9 17l-5-5" }]]
+};
+__iconData.node;
+function Check($$renderer, $$props) {
+	let { $$slots, $$events, ...props } = $$props;
+	Icon$1($$renderer, spread_props([props, { icon: __iconData }]));
+}
+// src/lib/components/ui/select/select-item.svelte
+function Select_item($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, class: className, value, label, children: childrenProp, $$slots, $$events, ...restProps } = $$props;
+		let $$settled = true;
+		let $$inner_renderer;
+		function $$render_inner($$renderer) {
+			{
+				function children($$renderer, { selected, highlighted }) {
+					$$renderer.push(`<span class="pointer-events-none absolute right-2 flex size-4 items-center justify-center">`);
+					if (selected) {
+						$$renderer.push("<!--[0-->");
+						Check($$renderer, { class: "pointer-events-none" });
+					} else $$renderer.push("<!--[-1-->");
+					$$renderer.push(`<!--]--></span> <span class="flex flex-1 gap-2 shrink-0 whitespace-nowrap">`);
+					if (childrenProp) {
+						$$renderer.push("<!--[0-->");
+						childrenProp($$renderer, {
+							selected,
+							highlighted
+						});
+						$$renderer.push(`<!---->`);
+					} else $$renderer.push(`<!--[-1-->${escape_html(label || value)}`);
+					$$renderer.push(`<!--]--></span>`);
+				}
+				if (Select_item$1) {
+					$$renderer.push("<!--[-->");
+					Select_item$1($$renderer, spread_props([
+						{
+							value,
+							label,
+							"data-slot": "select-item",
+							class: cn("focus:bg-secondary focus:text-foreground gap-2.5 h-10 px-3 text-xs [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2 relative flex w-full cursor-default items-center outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0", "data-highlighted:bg-secondary data-highlighted:text-foreground", className)
+						},
+						restProps,
+						{
+							get ref() {
+								return ref;
+							},
+							set ref($$value) {
+								ref = $$value;
+								$$settled = false;
+							},
+							children,
+							$$slots: { default: true }
+						}
+					]));
+					$$renderer.push("<!--]-->");
+				} else {
+					$$renderer.push("<!--[!-->");
+					$$renderer.push("<!--]-->");
+				}
+			}
+		}
+		do {
+			$$settled = true;
+			$$inner_renderer = $$renderer.copy();
+			$$render_inner($$inner_renderer);
+		} while (!$$settled);
+		$$renderer.subsume($$inner_renderer);
+		bind_props($$props, { ref });
+	});
+}
+// src/lib/components/ui/select/select-trigger.svelte
+function Select_trigger($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, class: className, children, size = "default", $$slots, $$events, ...restProps } = $$props;
+		let $$settled = true;
+		let $$inner_renderer;
+		function $$render_inner($$renderer) {
+			if (Select_trigger$1) {
+				$$renderer.push("<!--[-->");
+				Select_trigger$1($$renderer, spread_props([
+					{
+						"data-slot": "select-trigger",
+						"data-size": size,
+						class: cn("bg-transparent border-input data-placeholder:text-foreground focus-visible:border-(--purple-400) focus-visible:bg-card aria-invalid:border-destructive gap-16 rounded-md border p-1.5 text-sm leading-5 transition-colors data-[size=default]:h-[38px] data-[size=sm]:h-8 *:data-[slot=select-value]:flex *:data-[slot=select-value]:gap-1.5 [&_svg:not([class*='size-'])]:size-5 flex w-fit items-center justify-between whitespace-nowrap outline-none disabled:cursor-not-allowed disabled:opacity-50 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center [&_svg]:pointer-events-none [&_svg]:shrink-0", className)
+					},
+					restProps,
+					{
+						get ref() {
+							return ref;
+						},
+						set ref($$value) {
+							ref = $$value;
+							$$settled = false;
+						},
+						children: ($$renderer) => {
+							children?.($$renderer);
+							$$renderer.push(`<!----> `);
+							Icon($$renderer, {
+								name: "arrow-down",
+								class: "text-foreground size-5 pointer-events-none"
+							});
+							$$renderer.push(`<!---->`);
+						},
+						$$slots: { default: true }
+					}
+				]));
+				$$renderer.push("<!--]-->");
+			} else {
+				$$renderer.push("<!--[!-->");
+				$$renderer.push("<!--]-->");
+			}
+		}
+		do {
+			$$settled = true;
+			$$inner_renderer = $$renderer.copy();
+			$$render_inner($$inner_renderer);
+		} while (!$$settled);
+		$$renderer.subsume($$inner_renderer);
+		bind_props($$props, { ref });
+	});
+}
+// src/lib/components/ui/select/select.svelte
+function Select($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { open = false, value = void 0, $$slots, $$events, ...restProps } = $$props;
+		let $$settled = true;
+		let $$inner_renderer;
+		function $$render_inner($$renderer) {
+			if (Select$1) {
+				$$renderer.push("<!--[-->");
+				Select$1($$renderer, spread_props([restProps, {
+					get open() {
+						return open;
+					},
+					set open($$value) {
+						open = $$value;
+						$$settled = false;
+					},
+					get value() {
+						return value;
+					},
+					set value($$value) {
+						value = $$value;
+						$$settled = false;
+					}
+				}]));
+				$$renderer.push("<!--]-->");
+			} else {
+				$$renderer.push("<!--[!-->");
+				$$renderer.push("<!--]-->");
+			}
+		}
+		do {
+			$$settled = true;
+			$$inner_renderer = $$renderer.copy();
+			$$render_inner($$inner_renderer);
+		} while (!$$settled);
+		$$renderer.subsume($$inner_renderer);
+		bind_props($$props, {
+			open,
+			value
+		});
+	});
+}
+// src/lib/components/ui/skeleton/skeleton.svelte
+function Skeleton($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, class: className, $$slots, $$events, ...restProps } = $$props;
+		$$renderer.push(`<div${attributes({
+			"data-slot": "skeleton",
+			class: clsx$1(cn("bg-card rounded-md animate-pulse", className)),
+			...restProps
+		})}></div>`);
+		bind_props($$props, { ref });
+	});
+}
+// src/lib/components/ui/stepper/stepper.svelte
+function Stepper($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { steps, current = 0, orientation = "vertical", class: className } = $$props;
+		const vertical = derived(() => orientation === "vertical");
+		const status = (i) => i < current ? "completed" : i === current ? "current" : "upcoming";
+		$$renderer.push(`<ol aria-label="Progress"${attr_class(clsx$1(cn("flex", vertical() ? "flex-col" : "items-center", className)))}><!--[-->`);
+		const each_array = ensure_array_like(steps);
+		for (let i = 0, $$length = each_array.length; i < $$length; i++) {
+			let step = each_array[i];
+			const filled = i <= current;
+			$$renderer.push(`<li${attr("aria-current", i === current ? "step" : void 0)}${attr_class(clsx$1(cn(vertical() ? "grid grid-cols-[26px_1fr] gap-x-3" : "flex items-center", !vertical() && i < steps.length - 1 && "flex-1")))}><span${attr_class(clsx$1(cn("grid size-[26px] shrink-0 place-items-center rounded-full border text-xs leading-4", filled ? "border-primary bg-primary text-foreground" : "border-(--purple-400) text-(--purple-400)")))}>${escape_html(i + 1)}<span class="sr-only">(${escape_html(status(i))})</span></span> `);
+			if (step.label) $$renderer.push(`<!--[0--><span${attr_class(clsx$1(cn("text-sm leading-5 text-foreground", vertical() ? "self-center" : "mx-2")))}>${escape_html(step.label)}</span>`);
+			else if (vertical()) $$renderer.push(`<!--[1--><span></span>`);
+			else $$renderer.push("<!--[-1-->");
+			$$renderer.push(`<!--]--> `);
+			if (i < steps.length - 1) $$renderer.push(`<!--[0--><span aria-hidden="true"${attr_class(clsx$1(cn("bg-(--grey-400)", vertical() ? "col-start-1 mx-auto h-[53px] w-px" : "h-px min-w-[53px] flex-1")))}></span>`);
+			else $$renderer.push("<!--[-1-->");
+			$$renderer.push(`<!--]--></li>`);
+		}
+		$$renderer.push(`<!--]--></ol>`);
+	});
+}
+// src/lib/components/ui/streak-tracker/streak-tracker.svelte
+function Streak_tracker($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { title, subtitle, count, days, columns = 10, class: className } = $$props;
+		const done = derived(() => days.filter(Boolean).length);
+		$$renderer.push(`<section${attr_class(clsx$1(cn("flex w-full max-w-[438px] flex-col gap-4 p-2.5", className)))} data-slot="streak-tracker"><div class="flex flex-col gap-2"><h3 class="text-2xl leading-8 font-bold">${escape_html(title)}</h3> `);
+		if (subtitle || count) $$renderer.push(`<!--[0--><div class="flex items-center justify-between"><p class="text-base leading-6 text-(--grey-300)">${escape_html(subtitle)}</p> <p class="text-[28px] leading-8 font-bold">${escape_html(count)}</p></div>`);
+		else $$renderer.push("<!--[-1-->");
+		$$renderer.push(`<!--]--></div> <div role="img"${attr("aria-label", `${stringify(title)}: ${stringify(done())} of ${stringify(days.length)} days completed`)} class="grid gap-y-3"${attr_style(`grid-template-columns: repeat(${stringify(columns)}, minmax(0, 1fr))`)}><!--[-->`);
+		const each_array = ensure_array_like(days);
+		for (let i = 0, $$length = each_array.length; i < $$length; i++) {
+			let filled = each_array[i];
+			$$renderer.push(`<span${attr_class(clsx$1(cn("size-4 justify-self-center rounded-full", filled ? "bg-(--purple-400)" : "border border-(--grey-500)")))}></span>`);
+		}
+		$$renderer.push(`<!--]--></div></section>`);
 	});
 }
 // src/lib/components/ui/switch/switch.svelte
@@ -13308,106 +13390,6 @@ function Switch($$renderer, $$props) {
 			ref,
 			checked
 		});
-	});
-}
-// src/lib/components/ui/textarea/textarea.svelte
-function Textarea($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, value = void 0, class: className, "data-slot": dataSlot = "textarea", $$slots, $$events, ...restProps } = $$props;
-		$$renderer.push(`<textarea${attributes({
-			"data-slot": dataSlot,
-			class: clsx$1(cn("bg-transparent border-input hover:bg-card focus-visible:bg-card focus-visible:border-(--purple-400) aria-invalid:border-destructive min-h-24 w-full min-w-0 resize-y rounded-md border px-2 py-2 text-sm leading-5 transition-colors outline-none placeholder:text-secondary-foreground/80 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50", className)),
-			...restProps
-		})}>`);
-		const $$body = escape_html(value);
-		if ($$body) $$renderer.push(`${$$body}`);
-		$$renderer.push(`</textarea>`);
-		bind_props($$props, {
-			ref,
-			value
-		});
-	});
-}
-// src/lib/components/ui/avatar/avatar.svelte
-var avatarVariants = tv({
-	base: "bg-card text-foreground relative inline-flex shrink-0 select-none items-center justify-center overflow-hidden rounded-full font-bold",
-	variants: { size: {
-		sm: "size-8 text-xs leading-4",
-		default: "size-10 text-sm leading-5",
-		lg: "size-14 text-base leading-6"
-	} },
-	defaultVariants: { size: "default" }
-});
-function Avatar($$renderer, $$props) {
-	$$renderer.component(($$renderer) => {
-		let { ref = null, src, alt = "", fallback = "", size = "default", class: className, $$slots, $$events, ...restProps } = $$props;
-		let $$settled = true;
-		let $$inner_renderer;
-		function $$render_inner($$renderer) {
-			if (Avatar$1) {
-				$$renderer.push("<!--[-->");
-				Avatar$1($$renderer, spread_props([
-					{
-						"data-slot": "avatar",
-						"data-size": size,
-						class: cn(avatarVariants({ size }), className)
-					},
-					restProps,
-					{
-						get ref() {
-							return ref;
-						},
-						set ref($$value) {
-							ref = $$value;
-							$$settled = false;
-						},
-						children: ($$renderer) => {
-							if (Avatar_image) {
-								$$renderer.push("<!--[-->");
-								Avatar_image($$renderer, {
-									src,
-									alt,
-									"data-slot": "avatar-image",
-									class: "aspect-square size-full object-cover"
-								});
-								$$renderer.push("<!--]-->");
-							} else {
-								$$renderer.push("<!--[!-->");
-								$$renderer.push("<!--]-->");
-							}
-							$$renderer.push(` `);
-							if (Avatar_fallback) {
-								$$renderer.push("<!--[-->");
-								Avatar_fallback($$renderer, {
-									"data-slot": "avatar-fallback",
-									class: "flex size-full items-center justify-center",
-									children: ($$renderer) => {
-										$$renderer.push(`<!---->${escape_html(fallback)}`);
-									},
-									$$slots: { default: true }
-								});
-								$$renderer.push("<!--]-->");
-							} else {
-								$$renderer.push("<!--[!-->");
-								$$renderer.push("<!--]-->");
-							}
-						},
-						$$slots: { default: true }
-					}
-				]));
-				$$renderer.push("<!--]-->");
-			} else {
-				$$renderer.push("<!--[!-->");
-				$$renderer.push("<!--]-->");
-			}
-		}
-		do {
-			$$settled = true;
-			$$inner_renderer = $$renderer.copy();
-			$$render_inner($$inner_renderer);
-		} while (!$$settled);
-		$$renderer.subsume($$inner_renderer);
-		bind_props($$props, { ref });
 	});
 }
 // src/lib/components/ui/tabs/tabs.svelte
@@ -13580,6 +13562,24 @@ function Tabs_content($$renderer, $$props) {
 		bind_props($$props, { ref });
 	});
 }
+// src/lib/components/ui/textarea/textarea.svelte
+function Textarea($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let { ref = null, value = void 0, class: className, "data-slot": dataSlot = "textarea", $$slots, $$events, ...restProps } = $$props;
+		$$renderer.push(`<textarea${attributes({
+			"data-slot": dataSlot,
+			class: clsx$1(cn("bg-transparent border-input hover:bg-card focus-visible:bg-card focus-visible:border-(--purple-400) aria-invalid:border-destructive min-h-24 w-full min-w-0 resize-y rounded-md border px-2 py-2 text-sm leading-5 transition-colors outline-none placeholder:text-secondary-foreground/80 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50", className)),
+			...restProps
+		})}>`);
+		const $$body = escape_html(value);
+		if ($$body) $$renderer.push(`${$$body}`);
+		$$renderer.push(`</textarea>`);
+		bind_props($$props, {
+			ref,
+			value
+		});
+	});
+}
 // src/lib/components/ui/tooltip/tooltip-content.svelte
 function Tooltip_content($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
@@ -13643,4 +13643,4 @@ function Tooltip_content($$renderer, $$props) {
 var Root = Tooltip;
 var Trigger = Tooltip_trigger;
 var Provider = Tooltip_provider;
-export { Select as A, Card_content as B, Dialog_header as C, Dialog_close as D, Dialog_content as E, Card as F, Progress as G, Alert as H, Card_title as I, Badge as J, Label as K, Card_header as L, Icon as M, Select_item as N, Radio_group as O, Select_content as P, Card_footer as R, Dialog_title as S, Dialog_description as T, Alert_description as U, Card_action as V, Skeleton as W, Button as Y, Stepper as _, Tabs_content as a, Dialog as b, Tabs as c, Switch as d, Checkbox as f, Menu as g, Menu_item as h, Tooltip_content as i, Select_trigger as j, Radio_group_item as k, Avatar as l, Streak_tracker as m, Root as n, Tabs_trigger as o, Date_picker as p, Input as q, Trigger as r, Tabs_list as s, Provider as t, Textarea as u, Calendar_1 as v, Dialog_footer as w, Dialog_trigger as x, flag as y, Card_description as z };
+export { Dialog_content as A, Card_footer as B, flag as C, Dialog_header as D, Dialog_title as E, Label as F, Badge as G, Card_content as H, Checkbox as I, Alert as J, Avatar as K, Card as L, Date_picker as M, Calendar_1 as N, Dialog_footer as O, Input as P, Card_title as R, Menu as S, Dialog_trigger as T, Card_action as U, Card_description as V, Button as W, Alert_description as Y, Select_content as _, Textarea as a, Progress as b, Tabs_list as c, Streak_tracker as d, Stepper as f, Select_item as g, Select_trigger as h, Tooltip_content as i, Dialog_close as j, Dialog_description as k, Tabs as l, Select as m, Root as n, Tabs_content as o, Skeleton as p, Icon as q, Trigger as r, Tabs_trigger as s, Provider as t, Switch as u, Radio_group as v, Dialog as w, Menu_item as x, Radio_group_item as y, Card_header as z };
